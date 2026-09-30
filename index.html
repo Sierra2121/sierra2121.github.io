@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>為什麼研究室｜現場與程式之間・蔡的好奇心作品集</title>
+<meta name="description" content="我拉過線、組過機器、寫過 SEO 文章，也自己架網站、做 App。為什麼研究室收錄我在機電整合、PLC、SEO 內容寫作等領域的作品與學習筆記。">
+<meta property="og:title" content="為什麼研究室｜現場與程式之間">
+<meta property="og:description" content="每件事都從一個「為什麼」開始。機電整合、SEO 寫作、網站與 App 的作品與學習筆記。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f3ec;
+    --paper: #fffdf8;
+    --ink: #22201c;
+    --muted: #6b655b;
+    --line: #e3dccf;
+    --accent: #b8612a;      /* 銅線色 */
+    --accent-soft: #f3e2d4;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1916;
+      --paper: #23211d;
+      --ink: #eee8dd;
+      --muted: #a39b8d;
+      --line: #3a3630;
+      --accent: #e08a4f;
+      --accent-soft: #3a2a1e;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+    line-height: 1.8;
+    font-size: 17px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* 導覽列 */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: "Noto Serif TC", serif; font-weight: 900; font-size: 20px; text-decoration: none; }
+  .logo span { color: var(--accent); }
+  nav ul { display: flex; gap: 22px; list-style: none; }
+  nav ul a { text-decoration: none; color: var(--muted); font-size: 15px; }
+  nav ul a:hover { color: var(--accent); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  /* 主視覺 */
+  .hero { padding: 96px 0 72px; }
+  .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .15em; font-size: 14px; }
+  .hero h1 {
+    font-family: "Noto Serif TC", serif; font-weight: 900;
+    font-size: clamp(40px, 8vw, 76px); line-height: 1.2; margin: 12px 0 20px;
+  }
+  .hero h1 .q { color: var(--accent); }
+  .hero p { max-width: 620px; color: var(--muted); font-size: 18px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 999px;
+    text-decoration: none; font-weight: 500; border: 1.5px solid var(--ink);
+  }
+  .btn.primary { background: var(--ink); color: var(--bg); }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary:hover { background: var(--accent); color: #fff; }
+
+  /* 區塊 */
+  section { padding: 72px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: "Noto Serif TC", serif; font-size: 32px; margin-bottom: 8px; }
+  .lead { color: var(--muted); margin-bottom: 36px; }
+
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .card h3 { font-size: 20px; }
+  .card p { color: var(--muted); font-size: 15px; flex: 1; }
+  .tag {
+    align-self: flex-start; font-size: 12px; font-weight: 700; letter-spacing: .05em;
+    background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 999px;
+  }
+  .card.next { border-style: dashed; background: transparent; justify-content: center; text-align: center; }
+  .card.next h3 { color: var(--muted); }
+
+  /* SEO 作品卡 */
+  .case dl { font-size: 15px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+  .case dt { color: var(--muted); }
+  .note { font-size: 14px; color: var(--muted); margin-top: 20px; }
+
+  /* 日誌 */
+  .posts { list-style: none; }
+  .posts li { border-bottom: 1px solid var(--line); padding: 18px 0; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
+  .posts time { color: var(--muted); font-size: 14px; min-width: 96px; }
+  .posts a { text-decoration: none; font-weight: 500; }
+  .posts a:hover { color: var(--accent); }
+
+  /* 關於 */
+  .about { display: grid; gap: 40px; grid-template-columns: 1.4fr 1fr; }
+  @media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
+  .about p + p { margin-top: 14px; }
+  .skills h3 { font-size: 16px; margin: 0 0 6px; }
+  .skills ul { list-style: none; margin-bottom: 18px; }
+  .skills li { color: var(--muted); font-size: 15px; }
+
+  /* 聯絡 */
+  .contact { text-align: center; }
+  .contact .btns { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="logo" href="#">為什麼<span>研究室</span></a>
+    <ul>
+      <li><a href="#fields">探索領域</a></li>
+      <li><a href="#seo">SEO 作品</a></li>
+      <li><a href="#log">日誌</a></li>
+      <li><a href="#about">關於我</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- 主視覺 -->
+  <div class="hero wrap">
+    <p class="eyebrow">現場與程式之間</p>
+    <h1>每件事，<br>都從一個<span class="q">為什麼</span>開始。</h1>
+    <p>我拉過線、組過機器、寫過排上搜尋的文章，也自己架網站、做 App。這裡是我的作品，也是我還在進行中的實驗。</p>
+    <div class="btns">
+      <a class="btn primary" href="#fields">看我在研究什麼</a>
+      <a class="btn" href="#contact">聯絡我</a>
+    </div>
+  </div>
+
+  <!-- 探索領域 -->
+  <section id="fields">
+    <div class="wrap">
+      <h2>探索領域</h2>
+      <p class="lead">每一張卡片都是一個我正在問「為什麼」的地方。</p>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">機電整合</span>
+          <h3>控制電路與 PLC</h3>
+          <p>從自保持迴路、積熱電驛到 Timer、SET/RST，把傳統配線和 PLC 階梯圖放在一起對照，附電路圖與除錯紀錄。</p>
+        </article>
+        <article class="card">
+          <span class="tag">內容寫作</span>
+          <h3>SEO 文章</h3>
+          <p>關鍵字研究、內容架構規劃，擅長法律類等需要精確度的專業主題。</p>
+        </article>
+        <article class="card">
+          <span class="tag">網站與 App</span>
+          <h3>自己動手做</h3>
+          <p>從這個網站到正在開發的生活記錄 App，記錄我怎麼把想法做成能用的東西。</p>
+        </article>
+        <article class="card next">
+          <h3>下一個為什麼？</h3>
+          <p>還在找。學到什麼，就會多一張卡片。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO 作品 -->
+  <section id="seo">
+    <div class="wrap">
+      <h2>SEO 作品</h2>
+      <p class="lead">為客戶撰寫以搜尋排名為目標的文章。基於保密原則，不公開客戶名稱與原文。</p>
+      <div class="grid">
+        <article class="card case">
+          <span class="tag">法律｜律師事務所客戶</span>
+          <h3>〔主題類別〕</h3>
+          <dl>
+            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
+            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
+            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
+          </dl>
+        </article>
+        <article class="card case">
+          <span class="tag">法律｜律師事務所客戶</span>
+          <h3>〔主題類別〕</h3>
+          <dl>
+            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
+            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
+            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
+          </dl>
+        </article>
+        <article class="card case">
+          <span class="tag">法律｜律師事務所客戶</span>
+          <h3>〔主題類別〕</h3>
+          <dl>
+            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
+            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
+            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
+          </dl>
+        </article>
+      </div>
+      <p class="note">合作流程：了解需求 → 關鍵字研究與架構提案 → 撰寫與修改 → 交稿並附 SEO 設定建議</p>
+    </div>
+  </section>
+
+  <!-- 日誌 -->
+  <section id="log">
+    <div class="wrap">
+      <h2>日誌</h2>
+      <p class="lead">學習心得、除錯紀錄，還有那些「原來是這樣」的時刻。</p>
+      <ul class="posts">
+        <li><time>即將上線</time><a href="#">自保持迴路原理：傳統配線與 PLC 階梯圖對照</a></li>
+        <li><time>即將上線</time><a href="#">PLC Timer 用法：條件斷開為什麼會歸零？</a></li>
+        <li><time>即將上線</time><a href="#">SET/RST 指令：用 ANI M0 做故障鎖定與手動復歸</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 關於我 -->
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>關於我</h2>
+        <p>我是蔡，住在台中。工作經歷有點雜：現場配管配線、機械組裝、餐飲、網站架設、SEO 寫作。每一份我都喜歡，也都學到東西。</p>
+        <p>在現場拉線時，我開始好奇這些線背後的控制邏輯，於是從控制電路學起，再走進 PLC 程式。寫 SEO 文章則讓我知道，怎麼把複雜的東西寫得讓人看得懂、找得到。</p>
+        <p>「現場與程式之間」是我想站的位置：一邊動手做，一邊問為什麼，把兩邊接起來。</p>
+      </div>
+      <div class="skills">
+        <h3>機電</h3>
+        <ul>
+          <li>控制電路設計</li>
+          <li>PLC（三菱 FX3U／GX Works2、施耐德 M221）</li>
+          <li>配管配線、CAD 平面圖判讀</li>
+        </ul>
+        <h3>內容與網站</h3>
+        <ul>
+          <li>SEO 關鍵字研究與內容架構</li>
+          <li>法律類專業文章寫作</li>
+          <li>網站架設</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 聯絡 -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>一起聊聊？</h2>
+      <p class="lead">有 SEO 文章需求，或想交流機電學習，都歡迎來信。</p>
+      <div class="btns">
+        <a class="btn primary" href="mailto:your-email@example.com">寄信給我</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 為什麼研究室・現場與程式之間</div>
+</footer>
+
+</body>
+</html>
