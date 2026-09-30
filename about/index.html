@@ -79,8 +79,8 @@
   /* 配線板 */
   .board {
     position: relative; background: var(--bg2); border: 1px solid #2c2f33; border-radius: 10px;
-    padding: 24px 0; display: grid; column-gap: 10px;
-    grid-template-columns: repeat(4, minmax(0, 3fr)) 170px repeat(3, minmax(0, 4fr));
+    padding: 24px 20px; display: grid; column-gap: 0;
+    grid-template-columns: repeat(36, minmax(0, 1fr)) 170px repeat(36, minmax(0, 1fr));
     grid-template-rows: auto 150px auto;
   }
   #wires { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
@@ -113,11 +113,13 @@
 
   .top { grid-row: 1; align-self: end; }
   .bot { grid-row: 3; align-self: start; }
-  #n-exam { grid-column: 1; } #n-site { grid-column: 2; } #n-mech { grid-column: 3; } #n-plc { grid-column: 4; }
-  #n-sw { grid-column: 8; } #n-food { grid-column: 7; } #n-seo { grid-column: 6; }
-  #n-web { grid-column: 5; grid-row: 3; align-self: start; margin-top: 34px; }
-  .lampbox { grid-column: 5; grid-row: 2; display: grid; place-items: center; position: relative; z-index: 1; }
-  .center-note { grid-column: 5; grid-row: 1; align-self: end; text-align: center; font-size: 12px; color: var(--muted); padding-bottom: 6px; }
+  /* 每張卡片一樣寬（12 格）；L 上下交錯，所以每張只往右錯 7 格，間距比 P 小，L-04 和網站架設之間留空 */
+  #n-exam { grid-column: 1 / span 12; } #n-site { grid-column: 8 / span 12; } #n-mech { grid-column: 15 / span 12; } #n-plc { grid-column: 22 / span 12; }
+  .node.logic { margin-right: 10px; } .node.people { margin-left: 10px; }
+  #n-seo { grid-column: 38 / span 12; } #n-food { grid-column: 50 / span 12; } #n-sw { grid-column: 62 / span 12; }
+  #n-web { grid-column: 37; grid-row: 3; align-self: start; margin-top: 34px; }
+  .lampbox { grid-column: 37; grid-row: 2; display: grid; place-items: center; position: relative; z-index: 1; }
+  .center-note { grid-column: 37; grid-row: 1; align-self: end; text-align: center; font-size: 12px; color: var(--muted); padding-bottom: 6px; }
 
   /* Sierra 燈 */
   .lamp { text-align: center; }
@@ -145,15 +147,6 @@
   .msg .hd { font-family: var(--mono); font-size: 12px; color: var(--hazard); margin-bottom: 4px; }
   .msg .hd::before { content: "> "; color: var(--muted); }
 
-  /* 盤內元件表 */
-  section.parts { padding: 56px 0 20px; }
-  section.parts h2 { font-size: 26px; font-weight: 900; margin: 4px 0 16px; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #2c2f33; vertical-align: top; }
-  th { font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: .1em; }
-  td:first-child { font-family: var(--mono); color: var(--hazard); white-space: nowrap; width: 70px; }
-  td:nth-child(2) { white-space: nowrap; font-weight: 700; }
-
   .back { display: inline-block; margin: 36px 0 56px; font-family: var(--mono); font-size: 13px; color: var(--hazard); text-decoration: none; border: 1px dashed var(--hazard); padding: 6px 12px; }
   .back:hover { background: rgba(242,194,48,.1); }
   footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
@@ -162,6 +155,7 @@
   @media (max-width: 760px) {
     .board { grid-template-columns: 1fr 1fr; grid-template-rows: none; column-gap: 28px; row-gap: 26px; padding: 26px 14px 30px; }
     .top, .bot { grid-row: auto; align-self: auto; }
+    .node.logic, .node.people { margin: 0; }
     #n-exam { grid-column: 1; grid-row: 1; } #n-site { grid-column: 1; grid-row: 2; }
     #n-mech { grid-column: 1; grid-row: 3; } #n-plc  { grid-column: 1; grid-row: 4; }
     #n-sw   { grid-column: 2; grid-row: 1; } #n-food { grid-column: 2; grid-row: 2; } #n-seo { grid-column: 2; grid-row: 3; }
@@ -268,20 +262,6 @@
     <p id="msgBody">把滑鼠移到線上的端子（手機用點的），看每一段經歷帶給我什麼。也可以試著關掉上面其中一個開關。</p>
   </div>
 
-  <section class="parts">
-    <p class="code">PARTS LIST</p>
-    <h2>盤內元件表</h2>
-    <table>
-      <thead><tr><th>代號</th><th>項目</th><th>內容</th></tr></thead>
-      <tbody>
-        <tr><td>E-1</td><td>控制電路</td><td>傳統配線與階梯圖對照，自保持、Timer、積熱電驛、緊急停止</td></tr>
-        <tr><td>E-2</td><td>PLC</td><td>三菱 FX3U（GX Works2）、施耐德 M221</td></tr>
-        <tr><td>E-3</td><td>現場</td><td>配管配線、看平面圖、機械組裝</td></tr>
-        <tr><td>W-1</td><td>SEO 寫作</td><td>關鍵字研究、搜尋意圖、內容架構；寫過涉及消防法的課程推廣文章</td></tr>
-        <tr><td>W-2</td><td>網站</td><td>這個網站就是自己架的，另外在做一個記錄生活的 App</td></tr>
-      </tbody>
-    </table>
-  </section>
 
   <a class="back" href="/">← 回到控制盤</a>
 </main>
