@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>機電｜乙級機電整合觀念筆記・為什麼研究室</title>
+<meta name="description" content="乙級機電整合學科，照 8 個題組整理成觀念筆記：機械元件、儀表工具、氣壓油壓、電控感測、電動機、控制器、試車調整、維修。每一篇只講一件事：為什麼。">
+<meta property="og:title" content="機電｜乙級機電整合觀念筆記">
+<meta property="og:description" content="照 8 個題組整理的觀念筆記，每一篇只講為什麼。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #17191b;
+    --bg2: #1f2225;
+    --bg3: #0f1112;
+    --line: #2c2f33;
+    --metal: #3a3e43;
+    --metal-hi: #52575d;
+    --metal-lo: #2a2d31;
+    --text: #e9e6df;
+    --muted: #9a978f;
+    --hazard: #f2c230;
+    --amber: #ffb347;
+    --red: #ff4b3e;
+    --wire-off: #5b6066;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+    line-height: 1.85; font-size: 16px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px); }
+
+  /* 導覽列（與其他頁相同） */
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  .crumb { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 22px 0 0; }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--hazard); }
+
+  .hero { padding: 26px 0 10px; }
+  .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  .hero h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.3; margin-top: 4px; }
+  .hero .lead { margin-top: 12px; color: #d8d4cb; max-width: 680px; }
+
+  /* 分電盤 */
+  .board {
+    margin: 30px 0 60px;
+    background: linear-gradient(160deg, var(--metal-hi), var(--metal) 40%, var(--metal-lo));
+    border-radius: 10px; padding: 34px 26px 26px; position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 10px 30px rgba(0,0,0,.5);
+    border: 1px solid #1a1c1e;
+  }
+  .screw { position: absolute; width: 12px; height: 12px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #aaa, #555); box-shadow: inset 0 0 2px #000; }
+  .screw::after { content: ""; position: absolute; left: 2px; right: 2px; top: 5px; height: 2px; background: #333; transform: rotate(35deg); }
+  .s1 { top: 10px; left: 10px; } .s2 { top: 10px; right: 10px; } .s3 { bottom: 10px; left: 10px; } .s4 { bottom: 10px; right: 10px; }
+  .board-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .nameplate {
+    display: inline-block; background: #d9d5cb; color: #222; font-family: var(--mono); font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 3px; letter-spacing: .12em;
+  }
+  .legend { font-family: var(--mono); font-size: 12px; color: #cfcac0; display: flex; gap: 16px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+
+  /* 母線 + 8 顆 NFB */
+  .busbar { height: 8px; border-radius: 2px; background: linear-gradient(#e0a86a, #b87a3d); box-shadow: 0 2px 0 #00000055; margin: 0 6px 0; }
+  .breakers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 760px) { .breakers { grid-template-columns: repeat(2, 1fr); } }
+  .row-gap { height: 22px; }
+
+  .nfb {
+    position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+    text-decoration: none; background: var(--bg3); border: 1px solid #000; border-radius: 6px;
+    padding: 18px 10px 14px; min-height: 250px;
+  }
+  .nfb::before { /* 從母線接下來的線 */
+    content: ""; position: absolute; top: -14px; left: 50%; width: 3px; height: 14px; margin-left: -1.5px;
+    background: var(--wire-off);
+  }
+  .nfb.on::before { background: var(--amber); }
+  .nfb .no { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+  .lamp {
+    width: 26px; height: 26px; border-radius: 50%; margin: 8px 0 10px;
+    background: radial-gradient(circle at 35% 35%, #6a5a58, #2c2322 70%);
+    border: 2px solid #555; box-shadow: inset 0 0 4px #000;
+  }
+  .nfb.on .lamp {
+    background: radial-gradient(circle at 35% 35%, #ffb3ab, var(--red) 55%, #9a1f16);
+    box-shadow: 0 0 14px rgba(255,75,62,.7), inset 0 0 3px rgba(255,255,255,.4);
+  }
+  /* 斷路器本體與把手 */
+  .body {
+    width: 54px; height: 70px; border-radius: 4px; position: relative;
+    background: linear-gradient(#2d3034, #1d1f22); border: 1px solid #000;
+  }
+  .body::before { /* 把手槽 */
+    content: ""; position: absolute; left: 50%; top: 12px; width: 16px; height: 46px; margin-left: -8px;
+    background: #0a0b0c; border-radius: 3px;
+  }
+  .handle {
+    position: absolute; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 3px;
+    background: linear-gradient(#c9c4b8, #8e897e); top: 34px; transition: top .25s;
+  }
+  .nfb.on .handle { top: 12px; background: linear-gradient(#f5d36a, #c99a1f); }
+  .body .onoff { position: absolute; right: -24px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
+  .body .onoff.t { top: 10px; } .body .onoff.b { bottom: 10px; }
+  .nfb .name { font-weight: 700; font-size: 16px; line-height: 1.45; margin-top: 14px; }
+  .nfb .count { font-family: var(--mono); font-size: 12px; margin-top: 6px; color: var(--muted); }
+  .nfb.on .count { color: var(--amber); }
+  .nfb:not(.on) .name { color: #b8b3a8; }
+  a.nfb.on:hover, a.nfb.on:focus-visible { border-color: var(--hazard); outline: none; }
+  a.nfb.on:hover .name { color: var(--hazard); }
+
+  .how { color: var(--muted); font-size: 14px; margin-top: 18px; }
+
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/mech/" aria-current="page">機電</a></li>
+      <li><a href="/#seo">SEO</a></li>
+      <li><a href="/about/">關於我</a></li>
+      <li><a href="/#log">日誌</a></li>
+      <li><a href="/#contact">聯絡</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">首頁</a> / 機電</p>
+
+  <div class="hero">
+    <p class="code">BOX No.01</p>
+    <h1>機電分電盤</h1>
+    <p class="lead">乙級機電整合的學科，我照 8 個題組整理成觀念筆記。題庫已經有答案了，所以每一篇只講一件事：為什麼。</p>
+  </div>
+
+  <div class="board">
+    <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
+
+    <div class="board-head">
+      <span class="nameplate">MECH-PANEL ・ 8 BRANCH</span>
+      <span class="legend"><span><i style="background:var(--red)"></i>RL 有筆記</span><span><i style="background:#3a2e2d;border:1px solid #666"></i>施工中</span></span>
+    </div>
+
+    <div class="busbar"></div>
+    <div class="row-gap" style="height:14px"></div>
+    <div class="breakers">
+      <!-- 新增筆記：把該題組的 <div class="nfb"> 改成 <a class="nfb on" href="網址">，
+           結尾 </div> 改成 </a>，「施工中」改成「筆記 1 篇 →」 -->
+      <a class="nfb on" href="/mech/elements/">
+        <span class="no">NFB-01・題組 1</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">自動化機械元件</span>
+        <span class="count">筆記 1 篇 →</span>
+      </a>
+      <div class="nfb">
+        <span class="no">NFB-02・題組 2</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">儀表及工具</span>
+        <span class="count">施工中</span>
+      </div>
+      <div class="nfb">
+        <span class="no">NFB-03・題組 3</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">氣壓、油壓迴路</span>
+        <span class="count">施工中</span>
+      </div>
+      <div class="nfb">
+        <span class="no">NFB-04・題組 4</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">電控、感測元件</span>
+        <span class="count">施工中</span>
+      </div>
+    </div>
+    <div class="row-gap"></div>
+    <div class="busbar"></div>
+    <div class="row-gap" style="height:14px"></div>
+    <div class="breakers">
+      <div class="nfb">
+        <span class="no">NFB-05・題組 5</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">電動機選用</span>
+        <span class="count">施工中</span>
+      </div>
+      <div class="nfb">
+        <span class="no">NFB-06・題組 6</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">控制器的使用</span>
+        <span class="count">施工中</span>
+      </div>
+      <div class="nfb">
+        <span class="no">NFB-07・題組 7</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">試車與調整</span>
+        <span class="count">施工中</span>
+      </div>
+      <div class="nfb">
+        <span class="no">NFB-08・題組 8</span>
+        <span class="lamp" aria-hidden="true"></span>
+        <span class="body" aria-hidden="true"><span class="handle"></span><span class="onoff t">ON</span><span class="onoff b">OFF</span></span>
+        <span class="name">維修</span>
+        <span class="count">施工中</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+
+</body>
+</html>
