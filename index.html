@@ -3,274 +3,673 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>為什麼研究室｜現場與程式之間・蔡的好奇心作品集</title>
-<meta name="description" content="我拉過線、組過機器、寫過 SEO 文章，也自己架網站、做 App。為什麼研究室收錄我在機電整合、PLC、SEO 內容寫作等領域的作品與學習筆記。">
+<title>為什麼研究室｜現場與程式之間・Sierra</title>
+<meta name="description" content="我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。按下啟動鈕，讓輸送帶帶你看我的機電學習筆記、SEO 作品與經歷。">
 <meta property="og:title" content="為什麼研究室｜現場與程式之間">
-<meta property="og:description" content="每件事都從一個「為什麼」開始。機電整合、SEO 寫作、網站與 App 的作品與學習筆記。">
+<meta property="og:description" content="因為好奇開始學，因為想讓人看懂而寫下來。">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f3ec;
-    --paper: #fffdf8;
-    --ink: #22201c;
-    --muted: #6b655b;
-    --line: #e3dccf;
-    --accent: #b8612a;      /* 銅線色 */
-    --accent-soft: #f3e2d4;
-    --radius: 14px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1916;
-      --paper: #23211d;
-      --ink: #eee8dd;
-      --muted: #a39b8d;
-      --line: #3a3630;
-      --accent: #e08a4f;
-      --accent-soft: #3a2a1e;
-    }
+    --bg: #17191b;
+    --bg2: #1f2225;
+    --metal: #3a3e43;
+    --metal-hi: #52575d;
+    --metal-lo: #2a2d31;
+    --text: #e9e6df;
+    --muted: #9a978f;
+    --hazard: #f2c230;
+    --green: #2fd26b;
+    --red: #ff4b3e;
+    --yellow: #ffd23f;
+    --wire-on: #ffb347;
+    --wire-off: #5b6066;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
-    color: var(--ink);
+    color: var(--text);
     font-family: "Noto Sans TC", system-ui, sans-serif;
     line-height: 1.8;
-    font-size: 17px;
+    font-size: 16px;
   }
   a { color: inherit; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .mono { font-family: var(--mono); }
+
+  /* 警示條紋 */
+  .hazard-strip {
+    height: 10px;
+    background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px);
+  }
 
   /* 導覽列 */
-  header {
-    position: sticky; top: 0; z-index: 10;
-    background: color-mix(in srgb, var(--bg) 90%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .logo { font-family: "Noto Serif TC", serif; font-weight: 900; font-size: 20px; text-decoration: none; }
-  .logo span { color: var(--accent); }
-  nav ul { display: flex; gap: 22px; list-style: none; }
-  nav ul a { text-decoration: none; color: var(--muted); font-size: 15px; }
-  nav ul a:hover { color: var(--accent); }
+  header { border-bottom: 1px solid #2c2f33; }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover { color: var(--hazard); }
   @media (max-width: 640px) { nav ul { display: none; } }
 
-  /* 主視覺 */
-  .hero { padding: 96px 0 72px; }
-  .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .15em; font-size: 14px; }
-  .hero h1 {
-    font-family: "Noto Serif TC", serif; font-weight: 900;
-    font-size: clamp(40px, 8vw, 76px); line-height: 1.2; margin: 12px 0 20px;
+  /* 開場 */
+  .intro { padding: 56px 0 36px; }
+  .intro h1 { font-size: clamp(34px, 6vw, 56px); font-weight: 900; line-height: 1.25; }
+  .intro .sub { font-family: var(--mono); color: var(--hazard); font-size: 14px; letter-spacing: .2em; margin-bottom: 10px; }
+  .intro .lead { font-size: 19px; margin-top: 14px; }
+  .intro .story { margin-top: 18px; color: var(--muted); max-width: 640px; }
+
+  /* 設備區 */
+  .rig {
+    display: grid; gap: 22px;
+    grid-template-columns: 300px 1fr;
+    grid-template-areas: "panel conveyor" "panel ladder";
+    padding-bottom: 60px;
   }
-  .hero h1 .q { color: var(--accent); }
-  .hero p { max-width: 620px; color: var(--muted); font-size: 18px; }
-  .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-  .btn {
-    display: inline-block; padding: 12px 22px; border-radius: 999px;
-    text-decoration: none; font-weight: 500; border: 1.5px solid var(--ink);
+  @media (max-width: 860px) {
+    .rig { grid-template-columns: 1fr; grid-template-areas: "panel" "conveyor" "ladder"; }
   }
-  .btn.primary { background: var(--ink); color: var(--bg); }
-  .btn:hover { border-color: var(--accent); color: var(--accent); }
-  .btn.primary:hover { background: var(--accent); color: #fff; }
 
-  /* 區塊 */
-  section { padding: 72px 0; border-top: 1px solid var(--line); }
-  h2 { font-family: "Noto Serif TC", serif; font-size: 32px; margin-bottom: 8px; }
-  .lead { color: var(--muted); margin-bottom: 36px; }
-
-  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-  .card {
-    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 26px; display: flex; flex-direction: column; gap: 10px;
+  /* 控制盤 */
+  .panel {
+    grid-area: panel;
+    background: linear-gradient(160deg, var(--metal-hi), var(--metal) 40%, var(--metal-lo));
+    border-radius: 10px; padding: 22px 20px 20px; position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 10px 30px rgba(0,0,0,.5);
+    border: 1px solid #1a1c1e;
   }
-  .card h3 { font-size: 20px; }
-  .card p { color: var(--muted); font-size: 15px; flex: 1; }
-  .tag {
-    align-self: flex-start; font-size: 12px; font-weight: 700; letter-spacing: .05em;
-    background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 999px;
+  .screw { position: absolute; width: 12px; height: 12px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #aaa, #555); box-shadow: inset 0 0 2px #000; }
+  .screw::after { content: ""; position: absolute; left: 2px; right: 2px; top: 5px; height: 2px; background: #333; transform: rotate(35deg); }
+  .s1 { top: 8px; left: 8px; } .s2 { top: 8px; right: 8px; } .s3 { bottom: 8px; left: 8px; } .s4 { bottom: 8px; right: 8px; }
+  .nameplate {
+    background: #d9d5cb; color: #222; font-family: var(--mono); font-size: 12px; font-weight: 700;
+    text-align: center; padding: 6px; border-radius: 3px; letter-spacing: .08em; margin-bottom: 20px;
   }
-  .card.next { border-style: dashed; background: transparent; justify-content: center; text-align: center; }
-  .card.next h3 { color: var(--muted); }
+  .lamps { display: flex; justify-content: space-around; margin-bottom: 24px; }
+  .lamp { text-align: center; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .bulb {
+    width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 6px;
+    border: 3px solid #222; transition: background .15s, box-shadow .15s;
+  }
+  .bulb.g { background: #1c3a26; } .bulb.r { background: #3f1a17; } .bulb.y { background: #3d3414; }
+  .bulb.g.on { background: var(--green); box-shadow: 0 0 18px var(--green); }
+  .bulb.r.on { background: var(--red); box-shadow: 0 0 18px var(--red); }
+  .bulb.y.on { background: var(--yellow); box-shadow: 0 0 18px var(--yellow); }
+  .lamp .desc { color: var(--muted); font-size: 10px; }
 
-  /* SEO 作品卡 */
-  .case dl { font-size: 15px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
-  .case dt { color: var(--muted); }
-  .note { font-size: 14px; color: var(--muted); margin-top: 20px; }
+  .buttons { display: flex; justify-content: space-around; margin-bottom: 20px; }
+  .pb { text-align: center; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .pb button {
+    width: 62px; height: 62px; border-radius: 50%; border: 5px solid #1b1b1b; cursor: pointer;
+    box-shadow: 0 5px 0 #0c0c0c, inset 0 -4px 6px rgba(0,0,0,.35), inset 0 3px 4px rgba(255,255,255,.3);
+    transition: transform .05s, box-shadow .05s; margin-bottom: 6px; touch-action: none;
+  }
+  .pb button:active, .pb button.pressed { transform: translateY(4px); box-shadow: 0 1px 0 #0c0c0c, inset 0 -2px 4px rgba(0,0,0,.35); }
+  .pb button:focus-visible { outline: 3px solid var(--hazard); outline-offset: 3px; }
+  #btnStart { background: #20a854; }
+  #btnStop { background: #d8352b; }
+  .reset { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  #btnReset {
+    font-family: var(--mono); font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 4px;
+    background: #111; color: var(--hazard); border: 2px solid var(--hazard); cursor: pointer;
+  }
+  #btnReset:disabled { opacity: .35; cursor: default; }
 
-  /* 日誌 */
-  .posts { list-style: none; }
-  .posts li { border-bottom: 1px solid var(--line); padding: 18px 0; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
-  .posts time { color: var(--muted); font-size: 14px; min-width: 96px; }
-  .posts a { text-decoration: none; font-weight: 500; }
-  .posts a:hover { color: var(--accent); }
+  /* 標示牌 */
+  .plate {
+    display: inline-block; background: #e8e4d8; color: #1d1d1d; font-size: 11px; font-weight: 700;
+    padding: 1px 8px; border-radius: 2px; margin-bottom: 8px; box-shadow: 0 1px 0 rgba(0,0,0,.5);
+    font-family: "Noto Sans TC", sans-serif; letter-spacing: .05em; white-space: nowrap;
+  }
+  .code-tag { font-family: var(--mono); font-size: 10px; color: var(--muted); }
 
-  /* 關於 */
-  .about { display: grid; gap: 40px; grid-template-columns: 1.4fr 1fr; }
-  @media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
-  .about p + p { margin-top: 14px; }
-  .skills h3 { font-size: 16px; margin: 0 0 6px; }
-  .skills ul { list-style: none; margin-bottom: 18px; }
-  .skills li { color: var(--muted); font-size: 15px; }
+  /* 第三排：選擇開關、緊急停止、復歸 */
+  .row3 { display: flex; justify-content: space-around; align-items: flex-end; margin-bottom: 16px; }
+  .ctrl { text-align: center; }
+  .knob-wrap { position: relative; width: 62px; height: 62px; margin: 0 auto 6px; }
+  #knob {
+    width: 62px; height: 62px; border-radius: 50%; border: 4px solid #111; cursor: pointer;
+    background: radial-gradient(circle at 40% 35%, #555, #1c1c1c); position: relative;
+    transition: transform .2s; transform: rotate(-45deg);
+  }
+  #knob.auto { transform: rotate(45deg); }
+  #knob::after {
+    content: ""; position: absolute; left: 50%; top: 4px; bottom: 4px; width: 12px; margin-left: -6px;
+    border-radius: 6px; background: linear-gradient(#2b2b2b, #0f0f0f); box-shadow: 0 0 0 2px #444;
+  }
+  #knob::before {
+    content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 12px; margin-left: -2px;
+    background: #eee; z-index: 1; border-radius: 2px;
+  }
+  .knob-labels { display: flex; justify-content: space-between; font-size: 10px; color: #cfcac0; width: 80px; margin: -2px auto 2px; }
+  .knob-labels .act { color: var(--hazard); font-weight: 700; }
 
-  /* 聯絡 */
-  .contact { text-align: center; }
-  .contact .btns { justify-content: center; }
+  .es-base {
+    width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 6px; display: grid; place-items: center;
+    background: radial-gradient(circle, #f2c230 60%, #c99a12 61%, #f2c230 70%);
+    border: 3px solid #1a1a1a;
+  }
+  #btnES {
+    width: 50px; height: 50px; border-radius: 50%; border: 3px solid #5a0e09; cursor: pointer;
+    background: radial-gradient(circle at 40% 35%, #ff6a5c, #c21a10 60%, #8a0f08);
+    box-shadow: 0 6px 0 #4a0905, 0 8px 10px rgba(0,0,0,.5); transition: transform .12s, box-shadow .12s;
+  }
+  #btnES.latched { transform: translateY(5px) scale(.96); box-shadow: 0 1px 0 #4a0905; }
+  #btnES.twist { animation: twist .45s ease-in-out; }
+  @keyframes twist { 50% { transform: translateY(5px) rotate(90deg) scale(.96); } }
+  #btnES:focus-visible, #knob:focus-visible { outline: 3px solid var(--hazard); outline-offset: 3px; }
 
-  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; text-align: center; }
+  /* 計時器顯示 */
+  .timer {
+    display: flex; justify-content: space-between; align-items: center; background: #0b0c0c; border: 2px solid #000;
+    border-radius: 3px; padding: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+  #timerVal { font-size: 20px; font-weight: 700; color: #ff5a3c; letter-spacing: .08em; text-shadow: 0 0 6px rgba(255,90,60,.6); }
+  #timerVal.idle { color: #4a2a22; text-shadow: none; }
+
+  .heat { margin-top: 18px; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .heat .bar { height: 8px; background: #111; border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  .heat .fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--yellow), var(--red)); transition: width .2s; }
+
+  .msg {
+    margin-top: 18px; background: #0f1112; border: 1px solid #000; border-radius: 4px;
+    font-family: var(--mono); font-size: 12px; color: var(--green); padding: 10px 12px; min-height: 64px;
+  }
+  .msg::before { content: "> "; color: var(--muted); }
+
+  /* 輸送帶 */
+  .conveyor-box { grid-area: conveyor; background: var(--bg2); border-radius: 10px; padding: 18px 18px 22px; border: 1px solid #2c2f33; }
+  .label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; margin-bottom: 10px; }
+  .conveyor { position: relative; height: 190px; overflow: hidden; }
+  .belt {
+    position: absolute; left: 90px; right: 0; bottom: 40px; height: 22px; border-radius: 11px;
+    background: repeating-linear-gradient(90deg, #2b2e31 0 18px, #3b3f43 18px 22px);
+    border: 3px solid #111;
+  }
+  .belt.run { animation: beltmove .5s linear infinite; }
+  @keyframes beltmove { from { background-position: 0 0; } to { background-position: 22px 0; } }
+  .rollers { position: absolute; left: 90px; right: 0; bottom: 14px; display: flex; justify-content: space-between; padding: 0 8px; }
+  .roller { width: 20px; height: 20px; border-radius: 50%; background: #555; border: 3px solid #222; position: relative; }
+  .roller::after { content: ""; position: absolute; top: 50%; left: 2px; right: 2px; height: 2px; background: #222; transform: translateY(-50%); }
+  .run .roller { animation: spin .6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .legs { position: absolute; left: 110px; right: 20px; bottom: 0; height: 16px; display: flex; justify-content: space-between; }
+  .legs span { width: 6px; background: #444; }
+
+  .motor { position: absolute; left: 0; bottom: 26px; width: 84px; height: 60px; }
+  .motor .body {
+    position: absolute; inset: 0; border-radius: 8px;
+    background: repeating-linear-gradient(0deg, #3d6d8f 0 5px, #335e7c 5px 8px);
+    border: 3px solid #111; display: grid; place-items: center;
+    font-family: var(--mono); font-weight: 700; font-size: 18px; color: #e9e6df;
+  }
+  .motor .fan {
+    position: absolute; right: -14px; top: 12px; width: 30px; height: 30px; border-radius: 50%;
+    border: 3px solid #111; background: conic-gradient(#999 0 25%, #555 0 50%, #999 0 75%, #555 0);
+  }
+  .motor.run .fan { animation: spin .25s linear infinite; }
+  .motor .tag { position: absolute; top: -20px; left: 0; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+  .crate {
+    position: absolute; bottom: 65px; width: 96px; height: 70px; left: 0;
+    background: linear-gradient(#c8914f, #a8733a); border: 3px solid #5b3a17; border-radius: 3px;
+    display: grid; place-items: center; text-decoration: none; color: #2a1a08; font-weight: 900; font-size: 16px;
+    box-shadow: inset 0 0 0 3px rgba(255,255,255,.12);
+    will-change: transform;
+  }
+  .crate::before, .crate::after { content: ""; position: absolute; left: 0; right: 0; height: 3px; background: rgba(91,58,23,.5); }
+  .crate::before { top: 12px; } .crate::after { bottom: 12px; }
+  .crate:hover, .crate:focus-visible { outline: 3px solid var(--hazard); outline-offset: 2px; }
+  .crate small { position: absolute; bottom: -1px; right: 4px; font-family: var(--mono); font-size: 9px; font-weight: 700; color: #5b3a17; }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* 階梯圖 */
+  .ladder-box { grid-area: ladder; background: var(--bg2); border-radius: 10px; padding: 18px; border: 1px solid #2c2f33; }
+  .ladder svg { width: 100%; height: auto; display: block; }
+  .ladder text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+  .rail { stroke: #7a7f85; stroke-width: 3; }
+  .w { stroke: var(--wire-off); stroke-width: 2; fill: none; transition: stroke .15s; }
+  .w.on { stroke: var(--wire-on); }
+  .ct { stroke: var(--wire-off); stroke-width: 2.5; fill: none; transition: stroke .15s; }
+  .ct.closed { stroke: var(--green); }
+  .coil { stroke: var(--wire-off); stroke-width: 2.5; fill: var(--bg2); transition: all .15s; }
+  .coil.on { stroke: var(--wire-on); fill: rgba(255,179,71,.18); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 8px; }
+  .legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 5px; }
+
+  /* 下方區塊 */
+  section.stub { padding: 56px 0; border-top: 1px solid #2c2f33; }
+  section.stub h2 { font-size: 28px; font-weight: 900; }
+  section.stub .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  section.stub p { color: var(--muted); margin-top: 8px; }
+  .wip { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 12px; padding: 4px 10px; border: 1px dashed var(--hazard); color: var(--hazard); }
+
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .belt.run, .run .roller, .motor.run .fan { animation: none; }
+  }
 </style>
 </head>
 <body>
 
+<div class="hazard-strip"></div>
 <header>
   <nav class="wrap">
-    <a class="logo" href="#">為什麼<span>研究室</span></a>
+    <a class="logo" href="#">為什麼研究室<small>SIERRA</small></a>
     <ul>
-      <li><a href="#fields">探索領域</a></li>
-      <li><a href="#seo">SEO 作品</a></li>
-      <li><a href="#log">日誌</a></li>
+      <li><a href="#mech">機電</a></li>
+      <li><a href="#seo">SEO</a></li>
       <li><a href="#about">關於我</a></li>
+      <li><a href="#log">日誌</a></li>
+      <li><a href="#contact">聯絡</a></li>
     </ul>
   </nav>
 </header>
 
 <main>
-  <!-- 主視覺 -->
-  <div class="hero wrap">
-    <p class="eyebrow">現場與程式之間</p>
-    <h1>每件事，<br>都從一個<span class="q">為什麼</span>開始。</h1>
-    <p>我拉過線、組過機器、寫過排上搜尋的文章，也自己架網站、做 App。這裡是我的作品，也是我還在進行中的實驗。</p>
-    <div class="btns">
-      <a class="btn primary" href="#fields">看我在研究什麼</a>
-      <a class="btn" href="#contact">聯絡我</a>
+  <div class="wrap intro">
+    <p class="sub">現場與程式之間</p>
+    <h1>為什麼研究室</h1>
+    <p class="lead">我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。</p>
+    <p class="story">社工系讓我學會了解他人，國考讓我學會邏輯。<br>工地讓我看見邏輯怎麼變成運轉，SEO 讓我學會用文字了解他人。<br>每一段都不是轉行，而是同一條路。</p>
+  </div>
+
+  <div class="wrap rig">
+    <!-- 控制盤 -->
+    <div class="panel" aria-label="輸送帶控制盤">
+      <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
+      <div class="nameplate">輸送帶控制盤 CV-01</div>
+
+      <div class="lamps">
+        <div class="lamp"><span class="plate">停止</span><div class="bulb g on" id="lampGL"></div><span class="code-tag">GL</span></div>
+        <div class="lamp"><span class="plate">運轉</span><div class="bulb r" id="lampRL"></div><span class="code-tag">RL</span></div>
+        <div class="lamp"><span class="plate">過載</span><div class="bulb y" id="lampYL"></div><span class="code-tag">YL</span></div>
+      </div>
+
+      <div class="buttons">
+        <div class="pb"><span class="plate">啟動</span><br><button id="btnStart" aria-label="啟動按鈕 PB1"></button><div class="code-tag">PB1</div></div>
+        <div class="pb"><span class="plate">停止</span><br><button id="btnStop" aria-label="停止按鈕 PB2"></button><div class="code-tag">PB2</div></div>
+      </div>
+
+      <div class="row3">
+        <div class="ctrl">
+          <span class="plate">手動／自動</span>
+          <div class="knob-labels"><span id="lblMan" class="act">手動</span><span id="lblAuto">自動</span></div>
+          <div class="knob-wrap"><button id="knob" aria-label="手動自動切換開關 COS，目前手動"></button></div>
+          <div class="code-tag">COS</div>
+        </div>
+        <div class="ctrl">
+          <span class="plate">緊急停止</span>
+          <div class="es-base"><button id="btnES" aria-label="緊急停止按鈕 ES"></button></div>
+          <div class="code-tag">ES</div>
+        </div>
+      </div>
+
+      <div class="reset">
+        <span class="plate" style="margin:0">積熱電驛</span>
+        <button id="btnReset" disabled>TH-RY 復歸</button>
+      </div>
+
+      <div class="timer" style="margin-top:16px"><span>TR 自動運轉</span><span id="timerVal" class="idle">--.-</span></div>
+
+      <div class="heat">馬達溫度
+        <div class="bar"><div class="fill" id="heatFill"></div></div>
+      </div>
+
+      <div class="msg" id="msg" aria-live="polite">按下綠色啟動鈕試試看</div>
+    </div>
+
+    <!-- 輸送帶 -->
+    <div class="conveyor-box">
+      <p class="label">CONVEYOR ・ 點箱子前往該區</p>
+      <div class="conveyor" id="conveyor">
+        <div class="motor" id="motor"><span class="tag">M 3φ</span><div class="body">M</div><div class="fan"></div></div>
+        <div class="belt" id="belt"></div>
+        <div class="rollers" id="rollers"><span class="roller"></span><span class="roller"></span><span class="roller"></span><span class="roller"></span><span class="roller"></span></div>
+        <div class="legs"><span></span><span></span><span></span></div>
+        <a class="crate" href="#mech" data-i="0">機電<small>No.01</small></a>
+        <a class="crate" href="#seo" data-i="1">SEO<small>No.02</small></a>
+        <a class="crate" href="#about" data-i="2">關於我<small>No.03</small></a>
+      </div>
+      <p class="hint">馬達停著的時候，箱子也可以直接點。</p>
+    </div>
+
+    <!-- 階梯圖 -->
+    <div class="ladder-box">
+      <p class="label">LADDER ・ 即時狀態</p>
+      <div class="ladder">
+        <svg viewBox="0 0 560 315" role="img" aria-label="自保持控制階梯圖">
+          <line class="rail" x1="20" y1="20" x2="20" y2="305"/>
+          <line class="rail" x1="540" y1="20" x2="540" y2="305"/>
+
+          <!-- Rung 1：PB2(b) — PB1(a) ∥ MC(a) — TH-RY(b) — MC -->
+          <line class="w on" id="r1z" x1="20" y1="50" x2="62" y2="50"/>
+          <!-- PB2 b接點 -->
+          <g class="ct closed" id="cPB2"><line x1="62" y1="38" x2="62" y2="62"/><line x1="82" y1="38" x2="82" y2="62"/><line x1="58" y1="62" x2="86" y2="38"/></g>
+          <text x="58" y="30">PB2</text>
+          <line class="w" id="r1a" x1="82" y1="50" x2="122" y2="50"/>
+          <!-- PB1 a接點 -->
+          <g class="ct" id="cPB1"><line x1="122" y1="38" x2="122" y2="62"/><line x1="142" y1="38" x2="142" y2="62"/></g>
+          <text x="118" y="30">PB1</text>
+          <!-- 並聯分支：MC 自保持 a接點 -->
+          <path class="w" id="r1b" d="M102 50 V100 H122 M142 100 H162 V50"/>
+          <g class="ct" id="cMCa1"><line x1="122" y1="88" x2="122" y2="112"/><line x1="142" y1="88" x2="142" y2="112"/></g>
+          <text x="168" y="104">MC（自保持）</text>
+          <line class="w" id="r1c" x1="142" y1="50" x2="190" y2="50"/>
+          <!-- ES b接點 -->
+          <g class="ct closed" id="cES"><line x1="190" y1="38" x2="190" y2="62"/><line x1="210" y1="38" x2="210" y2="62"/><line x1="186" y1="62" x2="214" y2="38"/></g>
+          <text x="192" y="30">ES</text>
+          <line class="w" id="r1f" x1="210" y1="50" x2="240" y2="50"/>
+          <!-- TR 限時 b接點 -->
+          <g class="ct closed" id="cTR"><line x1="240" y1="38" x2="240" y2="62"/><line x1="260" y1="38" x2="260" y2="62"/><line x1="236" y1="62" x2="264" y2="38"/></g>
+          <text x="242" y="30">TR</text>
+          <line class="w" id="r1g" x1="260" y1="50" x2="290" y2="50"/>
+          <!-- TH-RY b接點 -->
+          <g class="ct closed" id="cTH"><line x1="290" y1="38" x2="290" y2="62"/><line x1="310" y1="38" x2="310" y2="62"/><line x1="286" y1="62" x2="314" y2="38"/></g>
+          <text x="275" y="30">TH-RY</text>
+          <line class="w" id="r1d" x1="310" y1="50" x2="440" y2="50"/>
+          <circle class="coil" id="coilMC" cx="460" cy="50" r="18"/>
+          <text x="451" y="54" style="fill:var(--text)">MC</text>
+          <line class="w" id="r1e" x1="478" y1="50" x2="540" y2="50"/>
+
+          <!-- Rung 2：MC(a) — RL -->
+          <line class="w" id="r2w1" x1="20" y1="150" x2="142" y2="150"/>
+          <g class="ct" id="cMCa2"><line x1="142" y1="138" x2="142" y2="162"/><line x1="162" y1="138" x2="162" y2="162"/></g>
+          <text x="133" y="132">MC</text>
+          <line class="w" id="r2w2" x1="162" y1="150" x2="442" y2="150"/>
+          <circle class="coil" id="coilRL" cx="460" cy="150" r="16"/>
+          <text x="452" y="154" style="fill:var(--text)">RL</text>
+          <line class="w" id="r2w3" x1="476" y1="150" x2="540" y2="150"/>
+
+          <!-- Rung 3：MC(b) — GL -->
+          <line class="w" id="r3w1" x1="20" y1="195" x2="142" y2="195"/>
+          <g class="ct closed" id="cMCb"><line x1="142" y1="183" x2="142" y2="207"/><line x1="162" y1="183" x2="162" y2="207"/><line x1="138" y1="207" x2="166" y2="183"/></g>
+          <text x="133" y="177">MC</text>
+          <line class="w" id="r3w2" x1="162" y1="195" x2="442" y2="195"/>
+          <circle class="coil" id="coilGL" cx="460" cy="195" r="16"/>
+          <text x="452" y="199" style="fill:var(--text)">GL</text>
+          <line class="w" id="r3w3" x1="476" y1="195" x2="540" y2="195"/>
+
+          <!-- Rung 4：TH-RY(a) — YL -->
+          <line class="w" id="r4w1" x1="20" y1="240" x2="142" y2="240"/>
+          <g class="ct" id="cTHa"><line x1="142" y1="228" x2="142" y2="252"/><line x1="162" y1="228" x2="162" y2="252"/></g>
+          <text x="128" y="222">TH-RY</text>
+          <line class="w" id="r4w2" x1="162" y1="240" x2="442" y2="240"/>
+          <circle class="coil" id="coilYL" cx="460" cy="240" r="16"/>
+          <text x="452" y="244" style="fill:var(--text)">YL</text>
+          <line class="w" id="r4w3" x1="476" y1="240" x2="540" y2="240"/>
+
+          <!-- Rung 5：MC(a) — COS(自動) — TR -->
+          <line class="w" id="r5w1" x1="20" y1="290" x2="142" y2="290"/>
+          <g class="ct" id="cMCa3"><line x1="142" y1="278" x2="142" y2="302"/><line x1="162" y1="278" x2="162" y2="302"/></g>
+          <text x="133" y="272">MC</text>
+          <line class="w" id="r5w2" x1="162" y1="290" x2="240" y2="290"/>
+          <g class="ct" id="cCOS"><line x1="240" y1="278" x2="240" y2="302"/><line x1="260" y1="278" x2="260" y2="302"/></g>
+          <text x="226" y="272">COS 自動</text>
+          <line class="w" id="r5w3" x1="260" y1="290" x2="442" y2="290"/>
+          <circle class="coil" id="coilTR" cx="460" cy="290" r="16"/>
+          <text x="452" y="294" style="fill:var(--text)">TR</text>
+          <line class="w" id="r5w4" x1="476" y1="290" x2="540" y2="290"/>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--green)"></i>接點閉合</span>
+        <span><i style="background:var(--wire-on)"></i>通電</span>
+        <span><i style="background:var(--wire-off)"></i>未通電</span>
+      </div>
     </div>
   </div>
 
-  <!-- 探索領域 -->
-  <section id="fields">
+  <section class="stub" id="mech">
     <div class="wrap">
-      <h2>探索領域</h2>
-      <p class="lead">每一張卡片都是一個我正在問「為什麼」的地方。</p>
-      <div class="grid">
-        <article class="card">
-          <span class="tag">機電整合</span>
-          <h3>控制電路與 PLC</h3>
-          <p>從自保持迴路、積熱電驛到 Timer、SET/RST，把傳統配線和 PLC 階梯圖放在一起對照，附電路圖與除錯紀錄。</p>
-        </article>
-        <article class="card">
-          <span class="tag">內容寫作</span>
-          <h3>SEO 文章</h3>
-          <p>關鍵字研究、內容架構規劃，擅長法律類等需要精確度的專業主題。</p>
-        </article>
-        <article class="card">
-          <span class="tag">網站與 App</span>
-          <h3>自己動手做</h3>
-          <p>從這個網站到正在開發的生活記錄 App，記錄我怎麼把想法做成能用的東西。</p>
-        </article>
-        <article class="card next">
-          <h3>下一個為什麼？</h3>
-          <p>還在找。學到什麼，就會多一張卡片。</p>
-        </article>
-      </div>
+      <p class="code">BOX No.01</p>
+      <h2>機電</h2>
+      <p>控制電路、PLC 的學習筆記與實作專案。</p>
+      <span class="wip">施工中</span>
     </div>
   </section>
 
-  <!-- SEO 作品 -->
-  <section id="seo">
+  <section class="stub" id="seo">
     <div class="wrap">
-      <h2>SEO 作品</h2>
-      <p class="lead">為客戶撰寫以搜尋排名為目標的文章。基於保密原則，不公開客戶名稱與原文。</p>
-      <div class="grid">
-        <article class="card case">
-          <span class="tag">法律｜律師事務所客戶</span>
-          <h3>〔主題類別〕</h3>
-          <dl>
-            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
-            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
-            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
-          </dl>
-        </article>
-        <article class="card case">
-          <span class="tag">法律｜律師事務所客戶</span>
-          <h3>〔主題類別〕</h3>
-          <dl>
-            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
-            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
-            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
-          </dl>
-        </article>
-        <article class="card case">
-          <span class="tag">法律｜律師事務所客戶</span>
-          <h3>〔主題類別〕</h3>
-          <dl>
-            <dt>關鍵字</dt><dd>〔填入目標關鍵字〕</dd>
-            <dt>做法</dt><dd>〔一句話說明你的策略〕</dd>
-            <dt>成果</dt><dd>〔排名或交付內容〕</dd>
-          </dl>
-        </article>
-      </div>
-      <p class="note">合作流程：了解需求 → 關鍵字研究與架構提案 → 撰寫與修改 → 交稿並附 SEO 設定建議</p>
+      <p class="code">BOX No.02</p>
+      <h2>SEO</h2>
+      <p>一篇文章從關鍵字到成果，我怎麼寫。</p>
+      <span class="wip">施工中</span>
     </div>
   </section>
 
-  <!-- 日誌 -->
-  <section id="log">
+  <section class="stub" id="about">
     <div class="wrap">
+      <p class="code">BOX No.03</p>
+      <h2>關於我</h2>
+      <p>邏輯線和了解他人線，最後都接到同一顆燈。</p>
+      <span class="wip">施工中</span>
+    </div>
+  </section>
+
+  <section class="stub" id="log">
+    <div class="wrap">
+      <p class="code">LOG</p>
       <h2>日誌</h2>
-      <p class="lead">學習心得、除錯紀錄，還有那些「原來是這樣」的時刻。</p>
-      <ul class="posts">
-        <li><time>即將上線</time><a href="#">自保持迴路原理：傳統配線與 PLC 階梯圖對照</a></li>
-        <li><time>即將上線</time><a href="#">PLC Timer 用法：條件斷開為什麼會歸零？</a></li>
-        <li><time>即將上線</time><a href="#">SET/RST 指令：用 ANI M0 做故障鎖定與手動復歸</a></li>
-      </ul>
+      <p>學習筆記、除錯紀錄。</p>
+      <span class="wip">施工中</span>
     </div>
   </section>
 
-  <!-- 關於我 -->
-  <section id="about">
-    <div class="wrap about">
-      <div>
-        <h2>關於我</h2>
-        <p>我是蔡，住在台中。工作經歷有點雜：現場配管配線、機械組裝、餐飲、網站架設、SEO 寫作。每一份我都喜歡，也都學到東西。</p>
-        <p>在現場拉線時，我開始好奇這些線背後的控制邏輯，於是從控制電路學起，再走進 PLC 程式。寫 SEO 文章則讓我知道，怎麼把複雜的東西寫得讓人看得懂、找得到。</p>
-        <p>「現場與程式之間」是我想站的位置：一邊動手做，一邊問為什麼，把兩邊接起來。</p>
-      </div>
-      <div class="skills">
-        <h3>機電</h3>
-        <ul>
-          <li>控制電路設計</li>
-          <li>PLC（三菱 FX3U／GX Works2、施耐德 M221）</li>
-          <li>配管配線、CAD 平面圖判讀</li>
-        </ul>
-        <h3>內容與網站</h3>
-        <ul>
-          <li>SEO 關鍵字研究與內容架構</li>
-          <li>法律類專業文章寫作</li>
-          <li>網站架設</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 聯絡 -->
-  <section id="contact" class="contact">
+  <section class="stub" id="contact">
     <div class="wrap">
-      <h2>一起聊聊？</h2>
-      <p class="lead">有 SEO 文章需求，或想交流機電學習，都歡迎來信。</p>
-      <div class="btns">
-        <a class="btn primary" href="mailto:your-email@example.com">寄信給我</a>
-      </div>
+      <p class="code">CONTACT</p>
+      <h2>聯絡</h2>
+      <p>聯絡方式即將補上。</p>
     </div>
   </section>
 </main>
 
+<div class="hazard-strip"></div>
 <footer>
-  <div class="wrap">© 2026 為什麼研究室・現場與程式之間</div>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
 </footer>
 
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const AUTO_SEC = 8;                 // 自動模式：TR 設定 8 秒
+  const s = {
+    pb1: false, pb2: false, es: false, th: false,
+    mc: false, auto: false,
+    trOn: false, trLeft: AUTO_SEC, trOpen: false,
+    heat: 0
+  };
+  let lastMsg = "";
+  const say = t => { if (t !== lastMsg) { $("msg").textContent = t; lastMsg = t; } };
+  const set = (el, cls, on) => el.classList.toggle(cls, on);
+
+  // 自保持：MC = !PB2 · !ES · !TR(b) · !TH-RY · (PB1 + MC)
+  function evaluate(note) {
+    const was = s.mc;
+    s.mc = !s.pb2 && !s.es && !s.trOpen && !s.th && (s.pb1 || s.mc);
+
+    if (!was && s.mc) {                       // 每次啟動，馬達溫度上升
+      s.heat += 30;
+      if (s.heat >= 100) { trip(); return; }
+    }
+    // TR 線圈：MC 吸合且在自動模式才通電
+    const trShould = s.mc && s.auto;
+    if (trShould && !s.trOn) { s.trOn = true; s.trLeft = AUTO_SEC; }
+    if (!trShould) { s.trOn = false; s.trLeft = AUTO_SEC; }
+    // PB1 放開後，TR 的 b 接點才恢復，避免按著不放時反覆吸放
+    if (!s.mc && !s.pb1) s.trOpen = false;
+
+    render(was, note);
+  }
+
+  function trip() {
+    s.th = true; s.mc = false; s.heat = 100; s.trOn = false;
+    say("頻繁啟動讓馬達過熱，積熱電驛跳脫！等溫度降下來再按復歸。");
+    render(true, "trip");
+  }
+
+  function render(was, note) {
+    // 燈（台灣慣例：GL 停止、RL 運轉、YL 過載）
+    set($("lampRL"), "on", s.mc);
+    set($("lampGL"), "on", !s.mc);
+    set($("lampYL"), "on", s.th);
+    $("btnReset").disabled = !s.th;
+
+    // 接點
+    set($("cPB1"), "closed", s.pb1);
+    set($("cPB2"), "closed", !s.pb2);
+    set($("cES"), "closed", !s.es);
+    set($("cTR"), "closed", !s.trOpen);
+    set($("cTH"), "closed", !s.th);
+    set($("cTHa"), "closed", s.th);
+    ["cMCa1", "cMCa2", "cMCa3"].forEach(id => set($(id), "closed", s.mc));
+    set($("cMCb"), "closed", !s.mc);
+    set($("cCOS"), "closed", s.auto);
+
+    // 通電線段
+    const a = !s.pb2;                     // 過 PB2
+    const b = a && (s.pb1 || s.mc);       // 過 PB1 或自保持
+    const c = b && !s.es;                 // 過 ES
+    const d = c && !s.trOpen;             // 過 TR
+    const e = d && !s.th;                 // 過 TH-RY
+    set($("r1a"), "on", a);
+    set($("r1b"), "on", a && s.mc);
+    set($("r1c"), "on", b);
+    set($("r1f"), "on", c);
+    set($("r1g"), "on", d);
+    set($("r1d"), "on", e);
+    set($("r1e"), "on", e);
+    set($("coilMC"), "on", s.mc);
+
+    ["r2w1", "r3w1", "r4w1", "r5w1"].forEach(id => set($(id), "on", true));
+    ["r2w2", "r2w3"].forEach(id => set($(id), "on", s.mc));
+    set($("coilRL"), "on", s.mc);
+    ["r3w2", "r3w3"].forEach(id => set($(id), "on", !s.mc));
+    set($("coilGL"), "on", !s.mc);
+    ["r4w2", "r4w3"].forEach(id => set($(id), "on", s.th));
+    set($("coilYL"), "on", s.th);
+    set($("r5w2"), "on", s.mc);
+    ["r5w3", "r5w4"].forEach(id => set($(id), "on", s.mc && s.auto));
+    set($("coilTR"), "on", s.trOn);
+
+    // 機器
+    set($("motor"), "run", s.mc);
+    set($("belt"), "run", s.mc);
+    set($("rollers"), "run", s.mc);
+
+    // 計時器
+    const tv = $("timerVal");
+    if (s.trOn) { tv.textContent = s.trLeft.toFixed(1); tv.classList.remove("idle"); }
+    else { tv.textContent = s.auto ? AUTO_SEC.toFixed(1) : "--.-"; tv.classList.add("idle"); }
+
+    // 說明文字
+    if (note === "trip") return;
+    if (note === "es-on") return say("緊急停止！ES 是 b 接點，按下去會卡住不回彈，迴路一直斷開。再點一次＝旋轉復歸。");
+    if (note === "es-off") return say("ES 已旋轉復歸。要重新按啟動，馬達才會轉。");
+    if (note === "tr-up") return say(`TR 計時 ${AUTO_SEC} 秒到，限時 b 接點打開，MC 失磁，自動停止。`);
+    if (note === "cos") return say(s.auto
+      ? `切到自動：啟動後 TR 開始計時，${AUTO_SEC} 秒後自動停止。`
+      : "切到手動：啟動後靠自保持一直運轉，按停止才會停。");
+    if (s.th) return;
+    if (s.es && s.pb1) return say("ES 還壓著，按啟動也沒用，要先旋轉復歸。");
+    if (s.pb2) say("PB2 是 b 接點，按下去迴路就斷開，MC 失磁。");
+    else if (s.pb1 && s.mc) say(s.auto ? "MC 吸合，RL 亮，TR 開始計時。" : "MC 吸合，RL 亮，馬達開始轉。");
+    else if (s.mc && was) say("放開了，馬達還在轉 → 這就是自保持。MC 的 a 接點替 PB1 接住了迴路。");
+    else if (!s.mc && was) say("停止了。GL 亮起，箱子也可以直接點喔。");
+  }
+
+  // 按鈕（按住才通，放開回彈）
+  function bindHold(btn, key) {
+    const down = e => { e.preventDefault(); s[key] = true; btn.classList.add("pressed"); evaluate(); };
+    const up = () => { if (!s[key]) return; s[key] = false; btn.classList.remove("pressed"); evaluate(); };
+    btn.addEventListener("pointerdown", down);
+    btn.addEventListener("pointerup", up);
+    btn.addEventListener("pointerleave", up);
+    btn.addEventListener("pointercancel", up);
+    btn.addEventListener("keydown", e => { if ((e.key === " " || e.key === "Enter") && !e.repeat) down(e); });
+    btn.addEventListener("keyup", e => { if (e.key === " " || e.key === "Enter") up(); });
+  }
+  bindHold($("btnStart"), "pb1");
+  bindHold($("btnStop"), "pb2");
+
+  // 緊急停止：按下卡住，再點一次旋轉復歸
+  $("btnES").addEventListener("click", () => {
+    const es = $("btnES");
+    if (!s.es) {
+      s.es = true; es.classList.add("latched");
+      evaluate("es-on");
+    } else {
+      es.classList.add("twist");
+      setTimeout(() => {
+        es.classList.remove("twist", "latched");
+        s.es = false; evaluate("es-off");
+      }, 450);
+    }
+  });
+
+  // 手動／自動切換開關
+  $("knob").addEventListener("click", () => {
+    s.auto = !s.auto;
+    set($("knob"), "auto", s.auto);
+    set($("lblAuto"), "act", s.auto);
+    set($("lblMan"), "act", !s.auto);
+    $("knob").setAttribute("aria-label", `手動自動切換開關 COS，目前${s.auto ? "自動" : "手動"}`);
+    evaluate("cos");
+  });
+
+  // 積熱電驛復歸
+  $("btnReset").addEventListener("click", () => {
+    if (s.heat > 40) { say(`還在冷卻中…（${Math.round(s.heat)}°）積熱電驛要等雙金屬片冷卻才能復歸。`); return; }
+    s.th = false;
+    say("已復歸，可以重新啟動了。");
+    render(false, "reset");
+  });
+
+  // 每 0.1 秒：溫度下降、TR 計時
+  setInterval(() => {
+    s.heat = Math.max(0, s.heat - 1.5);
+    $("heatFill").style.width = s.heat + "%";
+    if (s.trOn) {
+      s.trLeft = Math.max(0, s.trLeft - 0.1);
+      if (s.trLeft <= 0) { s.trOpen = true; evaluate("tr-up"); }
+      else $("timerVal").textContent = s.trLeft.toFixed(1);
+    }
+  }, 100);
+
+  // 輸送帶上的箱子
+  const conv = $("conveyor");
+  const crates = [...document.querySelectorAll(".crate")];
+  let speed = 0, offset = 0, last = performance.now();
+  function place() {
+    const start = 100, W = conv.clientWidth - start;
+    const gap = W / crates.length;
+    crates.forEach((c, i) => {
+      const x = (i * gap + offset) % W;
+      c.style.transform = `translateX(${start + x - 10}px)`;
+    });
+  }
+  function tick(now) {
+    const dt = Math.min((now - last) / 1000, .05); last = now;
+    const target = s.mc ? 70 : 0;               // 啟動加速、停止減速
+    speed += (target - speed) * Math.min(dt * 3, 1);
+    if (speed < .5 && !s.mc) speed = 0;
+    offset += speed * dt;
+    place();
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener("resize", place);
+  place();
+  requestAnimationFrame(tick);
+  render(false);
+})();
+</script>
 </body>
 </html>
