@@ -169,34 +169,12 @@
 
     <div class="sim" id="ratchet">
       <p class="label">SIM ・ 棘輪 12 齒，推一下走一格</p>
-      <svg class="sq" viewBox="0 -30 340 330" role="img" aria-labelledby="rT">
-        <title id="rT">棘輪、棘爪和止動爪。往前推時棘輪跟著轉，往回拉時棘爪滑過齒面，棘輪不動。</title>
-        <!-- 推桿（連同棘爪一起擺動） -->
-        <g class="spin" id="arm" style="transform-origin:170px 150px">
-          <line x1="170" y1="150" x2="245" y2="45" stroke="#6b7078" stroke-width="10" stroke-linecap="round"/>
-          <g class="spin" id="pawl" style="transform-origin:245px 45px">
-            <path d="M245 40 L174 70 L246 52 Z" fill="#ffb347" stroke="#1a1a1a" stroke-width="1.5"/>
-          </g>
-          <circle cx="245" cy="45" r="6" fill="#e9e6df"/>
-          <text x="256" y="36" fill="#ffb347" font-size="13">棘爪</text>
-        </g>
-        <!-- 棘輪 -->
-        <g class="spin" id="wheel" style="transform-origin:170px 150px">
-          <path id="teeth" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
-          <circle cx="170" cy="150" r="30" fill="#2a2d31" stroke="#9a978f" stroke-width="2"/>
-          <line x1="170" y1="150" x2="170" y2="126" stroke="#f2c230" stroke-width="4" stroke-linecap="round"/>
-        </g>
-        <circle cx="170" cy="150" r="6" fill="#e9e6df"/>
-        <!-- 止動爪（固定） -->
-        <path d="M94 249 L166 231 L96 261 Z" fill="#9a978f" stroke="#1a1a1a" stroke-width="1.5"/>
-        <circle cx="95" cy="255" r="6" fill="#e9e6df"/>
-        <text x="20" y="285" fill="#9a978f" font-size="13">止動爪（固定）</text>
-      </svg>
+      <canvas id="rCv" role="img" aria-label="棘輪動畫：棘爪往前推時卡住直面，帶動棘輪；往回拉時沿斜坡滑過，棘輪不動，止動爪防止倒轉" style="width:100%;max-width:400px;aspect-ratio:1;display:block;margin:12px auto 0;"></canvas>
       <div class="row">
-        <button type="button" class="go" id="push">往前推（往前踩）</button>
-        <button type="button" id="pull" disabled>往回拉（往後踩）</button>
+        <button type="button" class="go" id="rPlay">暫停</button>
+        <button type="button" id="rSlow">慢速</button>
       </div>
-      <p class="msg" id="rMsg" aria-live="polite">黃色記號是棘輪目前的位置</p>
+      <p class="msg" id="rMsg" aria-live="off"></p>
     </div>
 
     <p>整個動作就是：推一下，前進一格；拉回來，原地不動；再推一下，再前進一格。所以棘輪<strong>只能往一個方向轉</strong>，而且是<strong>一格一格地動</strong>（間歇運動）。</p>
@@ -288,34 +266,60 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- 棘輪 ---------- */
-  const cx = 170, cy = 150, R = 90, r0 = 72, N = 12, STEP = 360 / N;
-  let d = "";
-  for (let i = 0; i < N; i++) {
-    const a0 = (i * STEP - 90 - STEP) * Math.PI / 180;   // 齒根
-    const a1 = (i * STEP - 90 - 2) * Math.PI / 180;      // 齒尖（斜坡爬到這裡）
-    const a2 = (i * STEP - 90) * Math.PI / 180;          // 直面落回齒根
-    const p = (a, rr) => `${(cx + rr * Math.cos(a)).toFixed(1)} ${(cy + rr * Math.sin(a)).toFixed(1)}`;
-    d += (i ? " L " : "M ") + p(a0, r0) + " L " + p(a1, R) + " L " + p(a2, r0);
-  }
-  document.getElementById("teeth").setAttribute("d", d + " Z");
-
-  let wheel = 0, forward = false, count = 0;
   const $ = id => document.getElementById(id);
-  $("push").addEventListener("click", () => {
-    wheel -= STEP; count++; forward = true;
-    $("arm").style.transform = `rotate(${-STEP}deg)`;
-    $("wheel").style.transform = `rotate(${wheel}deg)`;
-    $("rMsg").textContent = `棘爪抵住直牆，棘輪被推著走一格（共走了 ${count} 格）`;
-    $("push").disabled = true; $("pull").disabled = false;
-  });
-  $("pull").addEventListener("click", () => {
-    forward = false;
-    $("pawl").style.transform = "rotate(-14deg)";          // 被斜坡抬起
-    $("arm").style.transform = "rotate(0deg)";
-    setTimeout(() => { $("pawl").style.transform = "rotate(0deg)"; }, 450);
-    $("rMsg").textContent = "喀！棘爪被斜坡抬起、落進下一格，棘輪不動";
-    $("push").disabled = false; $("pull").disabled = true;
-  });
+  {
+    const cv = $("rCv"), dpr = window.devicePixelRatio || 1;
+    cv.width = 340 * dpr; cv.height = 340 * dpr;
+    const x = cv.getContext("2d"); x.scale(dpr, dpr);
+    const cx = 170, cy = 175, Rr = 88, h = 24, N = 12, st = Math.PI * 2 / N;
+    const a0 = -Math.PI / 2 - 0.6 * st, wBase = a0 - 0.93 * st, tsA = 0.15, F = 1.4;
+    let w = wBase, t = 0, run = !reduce, last = null, speed = 1;
+    const prof = th => { const u = (((th - w) % st) + st) % st / st; return Rr + h * (1 - u); };
+    const P = (r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    function rWheel() {
+      x.beginPath();
+      for (let k = 0; k < N; k++) {
+        const f = w + k * st, p = P(Rr, f);
+        k ? x.lineTo(...p) : x.moveTo(...p);
+        x.lineTo(...P(Rr + h, f));
+        for (let i = 1; i <= 10; i++) { const q = i / 10; x.lineTo(...P(Rr + h * (1 - q), f + q * st)); }
+      }
+      x.closePath(); x.fillStyle = "#3a3e43"; x.fill(); x.strokeStyle = "#9a978f"; x.lineWidth = 2; x.stroke();
+      x.beginPath(); x.arc(cx, cy, 34, 0, Math.PI * 2); x.fillStyle = "#2a2d31"; x.fill(); x.stroke();
+      x.beginPath(); x.moveTo(cx, cy); x.lineTo(...P(30, w)); x.strokeStyle = "#f2c230"; x.lineWidth = 4; x.lineCap = "round"; x.stroke();
+      x.beginPath(); x.arc(cx, cy, 6, 0, Math.PI * 2); x.fillStyle = "#e9e6df"; x.fill();
+    }
+    function rPawl(ang, col, label, fixed) {
+      const pv = P(150, ang - 0.32), tip = P(prof(ang) - 1, ang);
+      x.lineCap = "round";
+      if (!fixed) { x.strokeStyle = "#6b7078"; x.lineWidth = 8; x.beginPath(); x.moveTo(cx, cy); x.lineTo(...pv); x.stroke(); }
+      else { x.fillStyle = "#52575d"; x.beginPath(); x.moveTo(pv[0], pv[1]); x.lineTo(pv[0] + 14, pv[1] + 18); x.lineTo(pv[0] - 14, pv[1] + 18); x.closePath(); x.fill(); }
+      x.strokeStyle = col; x.lineWidth = 7; x.beginPath(); x.moveTo(...pv); x.lineTo(...tip); x.stroke();
+      x.beginPath(); x.arc(pv[0], pv[1], 5, 0, Math.PI * 2); x.fillStyle = "#e9e6df"; x.fill();
+      x.fillStyle = col; x.font = '13px "Noto Sans TC", sans-serif'; x.textAlign = "center";
+      if (fixed) { x.fillText(label, pv[0], pv[1] + 36); x.fillText("（固定）", pv[0], pv[1] + 52); }
+      else x.fillText(label, pv[0] - 14, pv[1] - 12);
+    }
+    function rDraw() {
+      const cyc = Math.floor(t / (2 * F)), ph = t % (2 * F);
+      let s, fwd;
+      if (ph < F) { s = ph / F; fwd = true; } else { s = 1 - (ph - F) / F; fwd = false; }
+      const e = s * s * (3 - 2 * s);
+      w = wBase + cyc * st + (fwd ? e * st : st);
+      x.clearRect(0, 0, 340, 340); rWheel();
+      rPawl(a0 + e * st, "#ffb347", "棘爪", false);
+      rPawl(tsA, "#9a978f", "止動爪", true);
+      $("rMsg").textContent = fwd ? "往前推：棘爪抵住直牆，棘輪被推著走" : "往回拉：棘爪被斜坡抬起滑過去，棘輪不動";
+    }
+    function rLoop(ts) {
+      if (last !== null && run) t += (ts - last) / 1000 * speed;
+      last = ts; rDraw(); requestAnimationFrame(rLoop);
+    }
+    $("rPlay").textContent = run ? "暫停" : "播放";
+    $("rPlay").addEventListener("click", function () { run = !run; this.textContent = run ? "暫停" : "播放"; });
+    $("rSlow").addEventListener("click", function () { speed = speed === 1 ? 0.35 : 1; this.textContent = speed === 1 ? "慢速" : "正常速度"; });
+    requestAnimationFrame(rLoop);
+  }
 
   /* ---------- 日內瓦 ---------- */
   const C = 150, rr = C * Math.SQRT1_2, DX = 120, DY = 140, GX = 270;
