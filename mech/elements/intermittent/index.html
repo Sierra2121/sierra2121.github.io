@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>間歇與單向機構：棘輪、間歇齒輪、日內瓦機構｜機電整合觀念筆記・為什麼研究室</title>
+<meta name="description" content="棘輪、間歇齒輪、日內瓦機構都能做間歇運動，但只有棘輪能限制方向。用互動圖看懂三者的差別，以及考題怎麼判斷。">
+<meta property="og:title" content="間歇與單向機構：棘輪、間歇齒輪、日內瓦機構">
+<meta property="og:description" content="三個都能動一下停一下，為什麼只有棘輪能單向？">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #17191b;
+    --bg2: #1f2225;
+    --bg3: #0f1112;
+    --line: #2c2f33;
+    --metal: #3a3e43;
+    --metal-hi: #52575d;
+    --metal-lo: #2a2d31;
+    --text: #e9e6df;
+    --muted: #9a978f;
+    --hazard: #f2c230;
+    --amber: #ffb347;
+    --red: #ff4b3e;
+    --wire-off: #5b6066;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+    line-height: 1.85; font-size: 16px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px); }
+
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; max-width: 960px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  .crumb { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 22px 0 0; }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--hazard); }
+
+  .hero { padding: 26px 0 30px; }
+  .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  .hero h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 900; line-height: 1.35; margin-top: 4px; }
+  .hero .lead { margin-top: 14px; color: #d8d4cb; }
+
+  section.block { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(22px, 4vw, 27px); font-weight: 900; line-height: 1.4; margin-top: 4px; margin-bottom: 14px; }
+  p + p { margin-top: 12px; }
+  strong { color: var(--amber); font-weight: 700; }
+  ul.pts { list-style: none; margin: 12px 0; }
+  ul.pts li { padding-left: 20px; position: relative; }
+  ul.pts li + li { margin-top: 8px; }
+  ul.pts li::before { content: ""; position: absolute; left: 2px; top: .8em; width: 8px; height: 3px; background: var(--hazard); }
+
+  .rule {
+    margin: 22px 0 6px; background: var(--bg3); border: 1px solid #000; border-left: 4px solid var(--hazard);
+    border-radius: 4px; padding: 14px 18px;
+  }
+  .rule .k { font-family: var(--mono); font-size: 11px; letter-spacing: .15em; color: var(--hazard); }
+  .rule p { margin-top: 2px; font-weight: 700; font-size: 18px; }
+  .rule .f { font-family: var(--mono); }
+
+  .specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0 6px; }
+  @media (max-width: 560px) { .specs { grid-template-columns: 1fr; } }
+  .spec { background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; }
+  .spec .k { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+  .spec .v { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--amber); line-height: 1.5; }
+  .spec .v small { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  /* 互動圖 */
+  .sim { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 22px 0 8px; }
+  .sim .label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; margin-bottom: 10px; }
+  .modes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .modes button, .acts button {
+    font: inherit; font-size: 14px; cursor: pointer; border-radius: 4px; padding: 6px 14px;
+    background: var(--bg3); color: var(--muted); border: 1px solid var(--line);
+  }
+  .modes button[aria-pressed="true"] { color: #1a1a1a; background: var(--hazard); border-color: var(--hazard); font-weight: 700; }
+  .acts { display: flex; gap: 8px; margin-top: 12px; }
+  .acts .go { background: var(--amber); color: #1a1a1a; border-color: var(--amber); font-weight: 700; }
+  .acts button:disabled { opacity: .4; cursor: not-allowed; }
+  .modes button:focus-visible, .acts button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .sim svg { width: 100%; height: auto; display: block; margin-top: 12px; }
+  .sim text { font-family: "Noto Sans TC", sans-serif; }
+  .nut { transition: transform .9s cubic-bezier(.4,0,.2,1); }
+  .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  @media (max-width: 560px) { .readout { grid-template-columns: 1fr; } }
+  .readout div { background: var(--bg3); border: 1px solid #000; border-radius: 4px; padding: 8px 12px; }
+  .readout .k { font-family: var(--mono); font-size: 11px; color: var(--muted); display: block; }
+  .readout .v { font-family: var(--mono); font-size: 17px; font-weight: 700; color: var(--amber); }
+  .readout .v small { color: var(--muted); font-weight: 500; font-size: 12px; }
+
+  table.cmp { width: 100%; border-collapse: collapse; margin: 18px 0 4px; font-size: 15px; }
+  table.cmp th, table.cmp td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  table.cmp th { background: var(--bg2); font-weight: 700; }
+  table.cmp td.f { font-family: var(--mono); color: var(--amber); font-weight: 700; white-space: nowrap; }
+
+  .refs { background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; margin-top: 12px; }
+  .refs .k { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+  .back { display: inline-block; margin-top: 26px; font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--hazard); }
+  .back:hover { text-decoration: underline; }
+
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+  .sim .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .sim .row button {
+    font: inherit; font-size: 14px; cursor: pointer; border-radius: 4px; padding: 6px 14px;
+    background: var(--bg3); color: var(--muted); border: 1px solid var(--line);
+  }
+  .sim .row button.go { background: var(--amber); color: #1a1a1a; border-color: var(--amber); font-weight: 700; }
+  .sim .row button:disabled { opacity: .4; cursor: not-allowed; }
+  .sim .row button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .sim .msg { font-family: var(--mono); font-size: 14px; color: var(--amber); margin-top: 10px; min-height: 1.6em; }
+  .sim svg.sq { max-width: 440px; margin: 12px auto 0; }
+  .spin { transition: transform .7s cubic-bezier(.4,0,.2,1); }
+  .how2 { display: grid; gap: 10px; margin-top: 16px; }
+  .how2 div { background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; }
+  .how2 .q { font-size: 14px; color: var(--muted); }
+  .how2 .a { font-weight: 700; color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/mech/" aria-current="page">機電</a></li>
+      <li><a href="/#seo">SEO</a></li>
+      <li><a href="/about/">關於我</a></li>
+      <li><a href="/#log">日誌</a></li>
+      <li><a href="/#contact">聯絡</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">首頁</a> / <a href="/mech/">機電</a> / <a href="/mech/elements/">題組 1</a> / 間歇與單向機構</p>
+
+  <div class="hero">
+    <p class="code">N002・題組 1 自動化機械元件</p>
+    <h1>間歇與單向機構：棘輪、間歇齒輪、日內瓦機構</h1>
+    <p class="lead">這三個常常一起出現在選項裡。它們都能讓東西「動一下、停一下」，但<strong>只有棘輪能限制方向</strong>。分清楚這一點，大部分題目就解決了。</p>
+  </div>
+
+  <section class="block">
+    <p class="code">01</p>
+    <h2>棘輪：只准一個方向</h2>
+    <p>棘輪機構有三個零件：外圈是鋸齒狀的<strong>棘輪</strong>，負責推的<strong>棘爪</strong>，還有固定不動、防止倒轉的<strong>止動爪</strong>。鋸齒一邊是斜坡、一邊是直的，這就是它只能單向的原因：</p>
+    <ul class="pts">
+      <li>往前推：棘爪頂住直的那一面，把棘輪一起推走。</li>
+      <li>往回拉：棘爪碰到的是斜坡，被斜坡抬起來、滑過去，棘輪不動。止動爪也卡著，棘輪沒辦法倒轉。</li>
+    </ul>
+
+    <div class="sim" id="ratchet">
+      <p class="label">SIM ・ 棘輪 12 齒，推一下走一齒</p>
+      <svg class="sq" viewBox="0 -30 340 330" role="img" aria-labelledby="rT">
+        <title id="rT">棘輪、棘爪和止動爪。往前推時棘輪跟著轉，往回拉時棘爪滑過齒面，棘輪不動。</title>
+        <!-- 推桿（連同棘爪一起擺動） -->
+        <g class="spin" id="arm" style="transform-origin:170px 150px">
+          <line x1="170" y1="150" x2="245" y2="45" stroke="#6b7078" stroke-width="10" stroke-linecap="round"/>
+          <g class="spin" id="pawl" style="transform-origin:245px 45px">
+            <path d="M245 40 L174 70 L246 52 Z" fill="#ffb347" stroke="#1a1a1a" stroke-width="1.5"/>
+          </g>
+          <circle cx="245" cy="45" r="6" fill="#e9e6df"/>
+          <text x="256" y="36" fill="#ffb347" font-size="13">棘爪</text>
+        </g>
+        <!-- 棘輪 -->
+        <g class="spin" id="wheel" style="transform-origin:170px 150px">
+          <path id="teeth" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
+          <circle cx="170" cy="150" r="30" fill="#2a2d31" stroke="#9a978f" stroke-width="2"/>
+          <line x1="170" y1="150" x2="170" y2="126" stroke="#f2c230" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <circle cx="170" cy="150" r="6" fill="#e9e6df"/>
+        <!-- 止動爪（固定） -->
+        <path d="M94 249 L166 231 L96 261 Z" fill="#9a978f" stroke="#1a1a1a" stroke-width="1.5"/>
+        <circle cx="95" cy="255" r="6" fill="#e9e6df"/>
+        <text x="20" y="285" fill="#9a978f" font-size="13">止動爪（固定）</text>
+      </svg>
+      <div class="row">
+        <button type="button" class="go" id="push">往前推（往前踩）</button>
+        <button type="button" id="pull" disabled>往回拉（往後踩）</button>
+      </div>
+      <p class="msg" id="rMsg" aria-live="polite">黃色記號是棘輪目前的位置</p>
+    </div>
+
+    <p>多按幾次就會發現：推一下、拉回來、再推一下，棘輪每次只走一齒，中間停住。所以<strong>棘輪也能做間歇運動</strong>，這是考題的陷阱。</p>
+    <p>腳踏車後輪就是棘輪：往前踩會帶動後輪；往後踩或不踩時，棘爪滑過齒面，發出「喀喀喀」的聲音。棘輪扳手也是同一個原理。</p>
+  </section>
+
+  <section class="block">
+    <p class="code">02</p>
+    <h2>間歇齒輪：只有一段有齒</h2>
+    <p>主動齒輪一直轉，但它的外圈<strong>只有一部分有齒</strong>。有齒的那段轉到從動齒輪時，兩個咬合，從動輪跟著轉；沒齒的那段經過時，從動輪就停住。沒齒的地方通常會做成圓弧（鎖止弧），把從動輪卡住，停的時候不會亂晃。</p>
+    <p>它不管方向，主動輪反轉，從動輪也跟著反轉。缺點是齒剛咬上的那一下有衝擊，不適合高速。常見的例子是計數器，個位轉一圈，十位才跳一格。</p>
+  </section>
+
+  <section class="block">
+    <p class="code">03</p>
+    <h2>日內瓦機構：銷子推著槽走</h2>
+    <p>主動輪上有一根<strong>銷</strong>，從動輪上有好幾條<strong>槽</strong>。主動輪每轉一圈，銷滑進一條槽、推著從動輪轉一格，再滑出來。銷不在槽裡的時候，主動輪的圓盤卡住從動輪的凹弧，從動輪停著不動。</p>
+
+    <div class="sim" id="geneva">
+      <p class="label">SIM ・ 4 槽日內瓦機構</p>
+      <svg class="sq" viewBox="0 0 420 280" role="img" aria-labelledby="gT">
+        <title id="gT">日內瓦機構：主動輪上的銷進入從動輪的槽，推動從動輪轉 90 度後滑出，其餘時間從動輪停住。</title>
+        <g id="driven">
+          <circle cx="270" cy="140" r="106" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
+          <g id="slots"></g>
+          <circle cx="270" cy="140" r="10" fill="#e9e6df"/>
+          <line x1="270" y1="140" x2="270" y2="60" stroke="#f2c230" stroke-width="4" stroke-linecap="round" transform="rotate(45 270 140)"/>
+        </g>
+        <g id="driver">
+          <circle cx="120" cy="140" r="66" fill="#2a2d31" stroke="#9a978f" stroke-width="2"/>
+          <circle id="relief" cx="0" cy="0" r="40" fill="#1f2225"/>
+          <line id="crank" x1="120" y1="140" x2="226" y2="140" stroke="#6b7078" stroke-width="10" stroke-linecap="round"/>
+          <circle id="pin" cx="226" cy="140" r="8" fill="#ffb347" stroke="#1a1a1a" stroke-width="1.5"/>
+          <circle cx="120" cy="140" r="6" fill="#e9e6df"/>
+        </g>
+        <text x="120" y="270" text-anchor="middle" fill="#9a978f" font-size="13">主動輪（一直轉）</text>
+        <text x="300" y="270" text-anchor="middle" fill="#9a978f" font-size="13">從動輪（4 槽）</text>
+      </svg>
+      <div class="row">
+        <button type="button" class="go" id="gPlay">暫停</button>
+      </div>
+      <p class="msg" id="gMsg" aria-live="off">主動輪轉一圈，從動輪轉 90°</p>
+    </div>
+
+    <div class="rule">
+      <p class="k">RULE</p>
+      <p>從動輪有 n 條槽，主動輪轉一圈，從動輪轉 <span class="f">360° ÷ n</span></p>
+    </div>
+    <p>它跟間歇齒輪最大的差別是<strong>平順</strong>：銷是沿著槽的方向滑進去的，一開始推得很輕，慢慢加速再慢慢停，不像齒輪「喀」一聲撞上。所以適合要快又要準的分度，例如電影放映機每格底片停一下、自動化設備的分度轉盤。</p>
+  </section>
+
+  <section class="block">
+    <p class="code">04</p>
+    <h2>放在一起比</h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>單向</th><th>間歇</th><th>怎麼認</th></tr></thead>
+      <tbody>
+        <tr><th>棘輪</th><td>✔</td><td>✔（來回推時）</td><td>鋸齒＋棘爪，喀喀聲</td></tr>
+        <tr><th>間歇齒輪</th><td></td><td>✔</td><td>只有一段有齒</td></tr>
+        <tr><th>日內瓦機構</th><td></td><td>✔</td><td>銷＋槽，起停平順</td></tr>
+      </tbody>
+    </table>
+    <div class="how2">
+      <div><span class="q">題目說「單向」「防止逆轉」</span><br><span class="a">→ 棘輪</span></div>
+      <div><span class="q">題目說「槽」「電影放映機」「分度」「n 槽轉幾度」</span><br><span class="a">→ 日內瓦機構</span></div>
+      <div><span class="q">題目說「部分有齒」「計數器」</span><br><span class="a">→ 間歇齒輪</span></div>
+      <div><span class="q">題目只說「間歇運動」</span><br><span class="a">→ 三個都可能，看選項裡有哪個</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <p class="code">05</p>
+    <h2>這個觀念用在哪幾題</h2>
+    <div class="refs">
+      <p class="k">乙級機電整合學科</p>
+      <p>題組 1：自行車後輪向前踩前進、向後踩不後退（棘輪）</p>
+    </div>
+    <a class="back" href="/mech/elements/">← 回到題組 1</a>
+  </section>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 棘輪 ---------- */
+  const cx = 170, cy = 150, R = 90, r0 = 72, N = 12, STEP = 360 / N;
+  let d = "";
+  for (let i = 0; i < N; i++) {
+    const a0 = (i * STEP - 90 - STEP) * Math.PI / 180;   // 齒根
+    const a1 = (i * STEP - 90 - 2) * Math.PI / 180;      // 齒尖（斜坡爬到這裡）
+    const a2 = (i * STEP - 90) * Math.PI / 180;          // 直面落回齒根
+    const p = (a, rr) => `${(cx + rr * Math.cos(a)).toFixed(1)} ${(cy + rr * Math.sin(a)).toFixed(1)}`;
+    d += (i ? " L " : "M ") + p(a0, r0) + " L " + p(a1, R) + " L " + p(a2, r0);
+  }
+  document.getElementById("teeth").setAttribute("d", d + " Z");
+
+  let wheel = 0, forward = false, count = 0;
+  const $ = id => document.getElementById(id);
+  $("push").addEventListener("click", () => {
+    wheel -= STEP; count++; forward = true;
+    $("arm").style.transform = `rotate(${-STEP}deg)`;
+    $("wheel").style.transform = `rotate(${wheel}deg)`;
+    $("rMsg").textContent = `棘爪頂住直面，棘輪跟著走一齒（共走了 ${count} 齒）`;
+    $("push").disabled = true; $("pull").disabled = false;
+  });
+  $("pull").addEventListener("click", () => {
+    forward = false;
+    $("pawl").style.transform = "rotate(-14deg)";          // 被斜坡抬起
+    $("arm").style.transform = "rotate(0deg)";
+    setTimeout(() => { $("pawl").style.transform = "rotate(0deg)"; }, 450);
+    $("rMsg").textContent = "喀！棘爪被斜坡抬起滑過去，棘輪不動";
+    $("push").disabled = false; $("pull").disabled = true;
+  });
+
+  /* ---------- 日內瓦 ---------- */
+  const C = 150, rr = C * Math.SQRT1_2, DX = 120, DY = 140, GX = 270;
+  const slots = $("slots");
+  for (let k = 0; k < 4; k++) {
+    const a = k * 90;
+    slots.insertAdjacentHTML("beforeend",
+      `<rect x="${GX - 112}" y="${DY - 9}" width="${112 - (C - rr) + 12}" height="18" rx="0" fill="#1f2225" transform="rotate(${a} ${GX} ${DY})"/>` +
+      `<circle cx="${GX - C}" cy="${DY}" r="70" fill="#1f2225" transform="rotate(${a + 45} ${GX} ${DY})"/>`);
+  }
+  let th = -Math.PI, playing = !reduce, last = null;
+  function geneva(t) {
+    const k = Math.floor((t + Math.PI) / (2 * Math.PI));
+    const tm = t - k * 2 * Math.PI;                         // -π ~ π，0 = 銷指向從動輪
+    let al;
+    if (tm < -Math.PI / 4) al = 45;
+    else if (tm > Math.PI / 4) al = -45;
+    else {
+      let a = Math.atan2(rr * Math.sin(tm), rr * Math.cos(tm) - C) * 180 / Math.PI - 180;
+      while (a < -180) a += 360; while (a > 180) a -= 360;
+      al = a;
+    }
+    const drivenDeg = -k * 90 + al;
+    const px = DX + rr * Math.cos(t), py = DY + rr * Math.sin(t);
+    $("pin").setAttribute("cx", px); $("pin").setAttribute("cy", py);
+    $("crank").setAttribute("x2", px); $("crank").setAttribute("y2", py);
+    $("relief").setAttribute("cx", DX + 72 * Math.cos(t)); $("relief").setAttribute("cy", DY + 72 * Math.sin(t));
+    $("driven").setAttribute("transform", `rotate(${drivenDeg} ${GX} ${DY})`);
+    $("gMsg").textContent = Math.abs(tm) <= Math.PI / 4 ? "銷在槽裡：從動輪轉動中" : "銷在槽外：從動輪停住";
+  }
+  function loop(ts) {
+    if (playing) {
+      if (last !== null) th += (ts - last) / 1000 * 1.4;
+      last = ts;
+    } else last = null;
+    geneva(th);
+    requestAnimationFrame(loop);
+  }
+  $("gPlay").textContent = playing ? "暫停" : "播放";
+  $("gPlay").addEventListener("click", () => {
+    playing = !playing; $("gPlay").textContent = playing ? "暫停" : "播放";
+  });
+  geneva(th);
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
