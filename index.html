@@ -250,6 +250,16 @@
   section.stub p { color: var(--muted); margin-top: 8px; }
   .wip { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 12px; padding: 4px 10px; border: 1px dashed var(--hazard); color: var(--hazard); }
 
+  .case-link {
+    display: block; margin-top: 18px; max-width: 520px; text-decoration: none;
+    background: #0f1112; border: 1px solid #000; border-left: 4px solid var(--wire-on);
+    border-radius: 4px; padding: 14px 18px; transition: border-color .15s, transform .15s;
+  }
+  .case-link:hover, .case-link:focus-visible { border-left-color: var(--hazard); transform: translateX(3px); }
+  .case-no { display: block; font-family: var(--mono); font-size: 11px; color: var(--hazard); letter-spacing: .12em; }
+  .case-title { display: block; font-weight: 700; font-size: 18px; }
+  .case-sub { display: block; font-size: 13px; color: var(--muted); }
+
   footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -441,7 +451,11 @@
       <p class="code">BOX No.02</p>
       <h2>SEO</h2>
       <p>一篇文章從關鍵字到成果，我怎麼寫。</p>
-      <span class="wip">施工中</span>
+      <a class="case-link" href="/seo/fire-manager-cluster/">
+        <span class="case-no">CASE No.02-01</span>
+        <span class="case-title">防火管理人主題叢集</span>
+        <span class="case-sub">主文搜尋「防火管理人」自然排名第 1，兩篇都被 AI 摘要引用 →</span>
+      </a>
     </div>
   </section>
 
