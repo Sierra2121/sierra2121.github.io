@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凸輪機構：形狀決定動作｜機電整合觀念筆記・為什麼研究室</title>
+<meta name="description" content="凸輪為什麼推得動桿子？往復和擺動從動件、偏心凸輪、停留段怎麼做，以及尖端、滾子、平板從動件的差別，附互動圖。">
+<meta property="og:title" content="凸輪機構：形狀決定動作">
+<meta property="og:description" content="凸輪一直轉，桿子為什麼能停住？">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #17191b;
+    --bg2: #1f2225;
+    --bg3: #0f1112;
+    --line: #2c2f33;
+    --metal: #3a3e43;
+    --metal-hi: #52575d;
+    --metal-lo: #2a2d31;
+    --text: #e9e6df;
+    --muted: #9a978f;
+    --hazard: #f2c230;
+    --amber: #ffb347;
+    --red: #ff4b3e;
+    --wire-off: #5b6066;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+    line-height: 1.85; font-size: 16px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px); }
+
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; max-width: 960px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  .crumb { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 22px 0 0; }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--hazard); }
+
+  .hero { padding: 26px 0 30px; }
+  .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  .hero h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 900; line-height: 1.35; margin-top: 4px; }
+  .hero .lead { margin-top: 14px; color: #d8d4cb; }
+
+  section.block { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(22px, 4vw, 27px); font-weight: 900; line-height: 1.4; margin-top: 4px; margin-bottom: 14px; }
+  p + p { margin-top: 12px; }
+  strong { color: var(--amber); font-weight: 700; }
+  ul.pts { list-style: none; margin: 12px 0; }
+  ul.pts li { padding-left: 20px; position: relative; }
+  ul.pts li + li { margin-top: 8px; }
+  ul.pts li::before { content: ""; position: absolute; left: 2px; top: .8em; width: 8px; height: 3px; background: var(--hazard); }
+
+  .rule {
+    margin: 22px 0 6px; background: var(--bg3); border: 1px solid #000; border-left: 4px solid var(--hazard);
+    border-radius: 4px; padding: 14px 18px;
+  }
+  .rule .k { font-family: var(--mono); font-size: 11px; letter-spacing: .15em; color: var(--hazard); }
+  .rule p { margin-top: 2px; font-weight: 700; font-size: 18px; }
+  .rule .f { font-family: var(--mono); }
+
+  .specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0 6px; }
+  @media (max-width: 560px) { .specs { grid-template-columns: 1fr; } }
+  .spec { background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; }
+  .spec .k { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+  .spec .v { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--amber); line-height: 1.5; }
+  .spec .v small { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  /* 互動圖 */
+  .sim { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 22px 0 8px; }
+  .sim .label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; margin-bottom: 10px; }
+  .modes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .modes button, .acts button {
+    font: inherit; font-size: 14px; cursor: pointer; border-radius: 4px; padding: 6px 14px;
+    background: var(--bg3); color: var(--muted); border: 1px solid var(--line);
+  }
+  .modes button[aria-pressed="true"] { color: #1a1a1a; background: var(--hazard); border-color: var(--hazard); font-weight: 700; }
+  .acts { display: flex; gap: 8px; margin-top: 12px; }
+  .acts .go { background: var(--amber); color: #1a1a1a; border-color: var(--amber); font-weight: 700; }
+  .acts button:disabled { opacity: .4; cursor: not-allowed; }
+  .modes button:focus-visible, .acts button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .sim svg { width: 100%; height: auto; display: block; margin-top: 12px; }
+  .sim text { font-family: "Noto Sans TC", sans-serif; }
+  .nut { transition: transform .9s cubic-bezier(.4,0,.2,1); }
+  .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  @media (max-width: 560px) { .readout { grid-template-columns: 1fr; } }
+  .readout div { background: var(--bg3); border: 1px solid #000; border-radius: 4px; padding: 8px 12px; }
+  .readout .k { font-family: var(--mono); font-size: 11px; color: var(--muted); display: block; }
+  .readout .v { font-family: var(--mono); font-size: 17px; font-weight: 700; color: var(--amber); }
+  .readout .v small { color: var(--muted); font-weight: 500; font-size: 12px; }
+
+  table.cmp { width: 100%; border-collapse: collapse; margin: 18px 0 4px; font-size: 15px; }
+  table.cmp th, table.cmp td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  table.cmp th { background: var(--bg2); font-weight: 700; }
+  table.cmp td.f { font-family: var(--mono); color: var(--amber); font-weight: 700; white-space: nowrap; }
+
+  .refs { background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; margin-top: 12px; }
+  .refs .k { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+  .back { display: inline-block; margin-top: 26px; font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--hazard); }
+  .back:hover { text-decoration: underline; }
+
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+  .sim .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+  .sim .row button {
+    font: inherit; font-size: 14px; cursor: pointer; border-radius: 4px; padding: 6px 14px;
+    background: var(--bg3); color: var(--muted); border: 1px solid var(--line);
+  }
+  .sim .row button[aria-pressed="true"] { color: #1a1a1a; background: var(--hazard); border-color: var(--hazard); font-weight: 700; }
+  .sim .row button.go { background: var(--amber); color: #1a1a1a; border-color: var(--amber); font-weight: 700; }
+  .sim .row button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .sim .msg { font-family: var(--mono); font-size: 14px; color: var(--amber); margin-top: 10px; min-height: 1.6em; }
+  .sim .hint { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .fol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  @media (max-width: 560px) { .fol { grid-template-columns: 1fr; } }
+  .fol figure { background: var(--bg2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+  .fol svg { width: 100%; max-width: 200px; display: block; margin: 0 auto; }
+  .fol figcaption { font-weight: 700; margin-top: 6px; }
+  .fol figcaption small { display: block; font-weight: 400; color: var(--muted); font-size: 14px; line-height: 1.7; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/mech/" aria-current="page">機電</a></li>
+      <li><a href="/#seo">SEO</a></li>
+      <li><a href="/about/">關於我</a></li>
+      <li><a href="/#log">日誌</a></li>
+      <li><a href="/#contact">聯絡</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">首頁</a> / <a href="/mech/">機電</a> / <a href="/mech/elements/">題組 1</a> / 凸輪機構</p>
+
+  <div class="hero">
+    <p class="code">N003・題組 1 自動化機械元件</p>
+    <h1>凸輪機構：形狀決定動作</h1>
+    <p class="lead">凸輪一直轉，桿子卻能上上下下，甚至在某一段停住不動。秘密只有一個：<strong>軸心到邊緣的距離</strong>。</p>
+  </div>
+
+  <section class="block">
+    <p class="code">01</p>
+    <h2>凸輪為什麼推得動桿子</h2>
+    <p>凸輪要能推動桿子，靠的就是「<strong>不一樣遠</strong>」。凸輪繞著軸轉，桿子一直靠在它的邊緣上。轉到軸心離邊緣比較遠的地方，桿子被推高；轉到比較近的地方，桿子就落下來。</p>
+    <p>被推的那根桿子叫<strong>從動件</strong>，它的動法有兩種：</p>
+    <ul class="pts">
+      <li><strong>往復</strong>：桿子被導槽夾住，只能直直地上下。</li>
+      <li><strong>擺動</strong>：桿子一端固定在支點上，另一端靠在凸輪上，跟著上下擺。</li>
+    </ul>
+
+    <div class="sim" id="cam">
+      <p class="label">SIM ・ 同一個凸輪，兩種從動件</p>
+      <div class="row" role="group" aria-label="凸輪形狀">
+        <button type="button" data-p="egg" aria-pressed="true">蛋形</button>
+        <button type="button" data-p="ecc" aria-pressed="false">偏心圓</button>
+        <button type="button" data-p="dwell" aria-pressed="false">有停留段</button>
+      </div>
+      <svg viewBox="0 0 720 330" role="img" aria-labelledby="cT">
+        <title id="cT">左邊是往復從動件，被導槽夾住只能上下；右邊是擺動從動件，一端固定在支點。兩個凸輪形狀相同、同步轉動。</title>
+        <text x="180" y="22" text-anchor="middle" fill="#e9e6df" font-size="15" font-weight="700">往復：直直上下</text>
+        <text x="520" y="22" text-anchor="middle" fill="#e9e6df" font-size="15" font-weight="700">擺動：一端固定，另一端上下擺</text>
+
+        <!-- 往復：導槽 + 桿子 -->
+        <rect x="156" y="74" width="12" height="40" fill="#2a2d31" stroke="#000"/>
+        <rect x="192" y="74" width="12" height="40" fill="#2a2d31" stroke="#000"/>
+        <text x="212" y="98" fill="#9a978f" font-size="12">導槽</text>
+        <g id="rod">
+          <rect x="172" y="0" width="16" height="0" fill="#ffb347" id="rodBody"/>
+          <path id="rodTip" fill="#ffb347"/>
+        </g>
+
+        <!-- 凸輪 1 -->
+        <g id="camA"></g>
+        <text x="180" y="322" text-anchor="middle" fill="#9a978f" font-size="13">凸輪（一直轉）</text>
+
+        <!-- 擺動：支點 + 擺桿 -->
+        <line id="lever" stroke="#ffb347" stroke-width="12" stroke-linecap="round"/>
+        <circle id="contact" r="5" fill="#f2c230"/>
+        <path d="M388 132 L372 158 L404 158 Z" fill="#6b7078"/>
+        <circle cx="388" cy="132" r="7" fill="#e9e6df"/>
+        <text x="388" y="178" text-anchor="middle" fill="#9a978f" font-size="12">支點（固定）</text>
+
+        <!-- 凸輪 2 -->
+        <g id="camB"></g>
+        <text x="540" y="322" text-anchor="middle" fill="#9a978f" font-size="13">凸輪（一直轉）</text>
+      </svg>
+      <div class="row">
+        <button type="button" class="go" id="play">暫停</button>
+      </div>
+      <p class="msg" id="cMsg" aria-live="off"></p>
+      <p class="hint" id="cHint"></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <p class="code">02</p>
+    <h2>補充兩點</h2>
+    <p><strong>1. 圓形其實也可以，只要軸不在正中間。</strong>把轉軸鑽在偏旁邊的位置，軸心到邊緣的距離就會變，這叫<strong>偏心凸輪</strong>，也很常見。在上面選「偏心圓」，可以看到轉軸（白點）和圓心（黃點）不在同一個地方。</p>
+    <p><strong>2. 形狀決定桿子怎麼動。</strong>凸的地方越高，桿子升越高；某段邊緣做成<strong>以轉軸為圓心的圓弧</strong>（距離不變），桿子就會在那段時間停住不動。所以工程師會依照需要的動作，去設計凸輪的形狀。在上面選「有停留段」，黃色標起來的兩段就是這種圓弧。</p>
+    <div class="rule">
+      <p class="k">注意</p>
+      <p>偏心凸輪的邊緣也是圓弧，但圓心不在轉軸上，所以桿子還是會動。重點是「圓心在不在轉軸上」。</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <p class="code">03</p>
+    <h2>從動件的形狀</h2>
+    <p>桿子碰到凸輪的那一端，形狀也有講究：</p>
+    <div class="fol">
+      <figure>
+        <svg viewBox="0 0 200 150" aria-hidden="true">
+          <path d="M10 150 Q100 70 190 150 Z" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
+          <rect x="92" y="6" width="16" height="70" fill="#ffb347"/>
+          <path d="M92 76 L108 76 L100 94 Z" fill="#ffb347"/>
+          <circle cx="100" cy="94" r="3.5" fill="#f2c230"/>
+        </svg>
+        <figcaption>尖端從動件
+          <small>接觸點最小，任何輪廓都跟得上，最精確。但一個點在磨，磨耗快，只適合低速、輕負載。</small>
+        </figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 200 150" aria-hidden="true">
+          <path d="M10 150 Q100 70 190 150 Z" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
+          <rect x="92" y="4" width="16" height="62" fill="#ffb347"/>
+          <circle cx="100" cy="78" r="16" fill="#1f2225" stroke="#ffb347" stroke-width="4"/>
+          <circle cx="100" cy="78" r="3" fill="#ffb347"/>
+        </svg>
+        <figcaption>滾子從動件
+          <small>前端裝一個會轉的滾子，滑動摩擦變成滾動摩擦，磨耗小，最常用。但凸輪上比滾子還窄的凹處，滾子會卡不進去。</small>
+        </figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 200 150" aria-hidden="true">
+          <path d="M10 150 Q100 70 190 150 Z" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>
+          <rect x="92" y="4" width="16" height="80" fill="#ffb347"/>
+          <rect x="52" y="84" width="96" height="10" fill="#ffb347"/>
+          <circle cx="100" cy="94" r="3.5" fill="#f2c230"/>
+        </svg>
+        <figcaption>平板從動件
+          <small>前端是一塊平板，接觸面大、受力好，適合高速，例如引擎的氣門。但凸輪不能有凹進去的輪廓，平板碰不到。</small>
+        </figcaption>
+      </figure>
+    </div>
+    <table class="cmp">
+      <thead><tr><th></th><th>優點</th><th>限制</th></tr></thead>
+      <tbody>
+        <tr><th>尖端</th><td>最精確，什麼輪廓都行</td><td>磨耗快，低速輕載</td></tr>
+        <tr><th>滾子</th><td>摩擦小、磨耗小，最常用</td><td>太窄的凹處進不去</td></tr>
+        <tr><th>平板</th><td>接觸面大，適合高速</td><td>輪廓不能有凹處</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block">
+    <p class="code">04</p>
+    <h2>這個觀念用在哪幾題</h2>
+    <div class="refs">
+      <p class="k">乙級機電整合學科</p>
+      <p>題組 1：待補</p>
+    </div>
+    <a class="back" href="/mech/elements/">← 回到題組 1</a>
+  </section>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const DEG = Math.PI / 180;
+  const A = { x: 180, y: 220 };           // 往復用凸輪的轉軸
+  const B = { x: 540, y: 225 };           // 擺動用凸輪的轉軸
+  const P = { x: 388, y: 132 };           // 擺桿支點
+  const E = 22, RC = 62;                  // 偏心圓：偏心量、圓半徑
+
+  // 凸輪輪廓：輸入凸輪上的角度 a（弧度，0 = 凸出方向），回傳軸心到邊緣的距離
+  const smooth = t => 0.5 - 0.5 * Math.cos(Math.PI * Math.min(1, Math.max(0, t)));
+  const PROFILES = {
+    egg:   a => 56 + 34 * Math.pow(0.5 + 0.5 * Math.cos(a), 2),
+    ecc:   a => E * Math.cos(a) + Math.sqrt(RC * RC - E * E * Math.sin(a) ** 2),
+    dwell: a => {
+      let d = Math.abs(((a / DEG) % 360 + 540) % 360 - 180);  // 0~180，0 = 凸出方向
+      if (d <= 30) return 86;                                  // 高停留：以轉軸為圓心
+      if (d >= 130) return 56;                                 // 低停留：以轉軸為圓心
+      return 86 - 30 * smooth((d - 30) / 100);
+    },
+  };
+  const HINTS = {
+    egg: "蛋形：凸出的那端轉上來，桿子就被推高。",
+    ecc: "偏心圓：白點是轉軸，黃點是圓心。圓心不在轉軸上，距離一直在變，桿子一直上下。",
+    dwell: "有停留段：黃色兩段是以轉軸為圓心的圓弧，轉到這兩段時桿子停住。",
+  };
+  let prof = "egg", ang = 90 * DEG, playing = !matchMedia("(prefers-reduced-motion: reduce)").matches, last = null, prevLift = null;
+
+  function camPath(c, rot) {
+    const f = PROFILES[prof]; let d = "";
+    for (let i = 0; i <= 180; i++) {
+      const a = i * 2 * DEG, r = f(a);
+      d += (i ? "L" : "M") + (c.x + r * Math.cos(a + rot)).toFixed(1) + " " + (c.y + r * Math.sin(a + rot)).toFixed(1);
+    }
+    return d + "Z";
+  }
+  function dwellArcs(c, rot) {
+    if (prof !== "dwell") return "";
+    const arc = (r, a0, a1) => {
+      const p = a => `${(c.x + r * Math.cos(a + rot)).toFixed(1)} ${(c.y + r * Math.sin(a + rot)).toFixed(1)}`;
+      return `<path d="M${p(a0)} A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${p(a1)}" fill="none" stroke="#f2c230" stroke-width="5"/>`;
+    };
+    return arc(86, -30 * DEG, 30 * DEG) + arc(56, 130 * DEG, 230 * DEG);
+  }
+  function camSVG(c, rot) {
+    let s = `<path d="${camPath(c, rot)}" fill="#3a3e43" stroke="#9a978f" stroke-width="2"/>` + dwellArcs(c, rot);
+    s += `<line x1="${c.x}" y1="${c.y}" x2="${c.x + 34 * Math.cos(rot)}" y2="${c.y + 34 * Math.sin(rot)}" stroke="#e9e6df" stroke-width="3"/>`;
+    if (prof === "ecc") s += `<circle cx="${c.x + E * Math.cos(rot)}" cy="${c.y + E * Math.sin(rot)}" r="5" fill="#f2c230"/>`;
+    return s + `<circle cx="${c.x}" cy="${c.y}" r="6" fill="#e9e6df"/>`;
+  }
+
+  function draw() {
+    const f = PROFILES[prof], rot = ang;
+    $("camA").innerHTML = camSVG(A, rot);
+    $("camB").innerHTML = camSVG(B, rot);
+
+    // 往復（尖端從動件，正對轉軸上方）：碰到的是凸輪上指向正上方的那一點
+    const lift = f(-Math.PI / 2 - rot);
+    const tipY = A.y - lift;
+    $("rodBody").setAttribute("y", 34); $("rodBody").setAttribute("height", Math.max(0, tipY - 14 - 34));
+    $("rodTip").setAttribute("d", `M172 ${tipY - 14} L188 ${tipY - 14} L180 ${tipY} Z`);
+
+    // 擺動（平板擺桿靠在凸輪上）：從支點看過去，最「上面」的那一點就是接觸點
+    let best = Infinity, bp = null;
+    for (let i = 0; i < 360; i++) {
+      const a = i * DEG, r = f(a);
+      const x = B.x + r * Math.cos(a + rot), y = B.y + r * Math.sin(a + rot);
+      if (x <= P.x) continue;
+      const t = Math.atan2(y - P.y, x - P.x) - Math.asin(6 / Math.hypot(x - P.x, y - P.y));  // 擺桿下緣剛好碰到
+      if (t < best) { best = t; bp = { x, y }; }
+    }
+    const Lv = 300;
+    $("lever").setAttribute("x1", P.x); $("lever").setAttribute("y1", P.y);
+    $("lever").setAttribute("x2", P.x + Lv * Math.cos(best)); $("lever").setAttribute("y2", P.y + Lv * Math.sin(best));
+    $("contact").setAttribute("cx", bp.x); $("contact").setAttribute("cy", bp.y);
+
+    if (prevLift !== null && playing) {
+      const dv = lift - prevLift;
+      $("cMsg").textContent = Math.abs(dv) < 0.02 ? "桿子：停住" : dv > 0 ? "桿子：上升中" : "桿子：下降中";
+    }
+    prevLift = lift;
+  }
+
+  document.querySelectorAll("[data-p]").forEach(b => b.addEventListener("click", () => {
+    prof = b.dataset.p; prevLift = null;
+    document.querySelectorAll("[data-p]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    $("cHint").textContent = HINTS[prof];
+    draw();
+  }));
+  $("play").textContent = playing ? "暫停" : "播放";
+  $("play").addEventListener("click", () => { playing = !playing; $("play").textContent = playing ? "暫停" : "播放"; });
+  function loop(ts) {
+    if (playing) { if (last !== null) ang += (ts - last) / 1000 * 0.9; last = ts; draw(); }
+    else last = null;
+    requestAnimationFrame(loop);
+  }
+  $("cHint").textContent = HINTS[prof];
+  draw();
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
