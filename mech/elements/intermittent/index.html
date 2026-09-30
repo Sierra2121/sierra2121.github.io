@@ -159,14 +159,16 @@
   <section class="block">
     <p class="code">01</p>
     <h2>棘輪：只准一個方向</h2>
-    <p>棘輪機構有三個零件：外圈是鋸齒狀的<strong>棘輪</strong>，負責推的<strong>棘爪</strong>，還有固定不動、防止倒轉的<strong>止動爪</strong>。鋸齒一邊是斜坡、一邊是直的，這就是它只能單向的原因：</p>
+    <p>棘輪機構有三個零件：鋸齒狀的<strong>棘輪</strong>、負責推的<strong>棘爪</strong>，還有固定不動、防止倒轉的<strong>止動爪</strong>。</p>
+    <p>每一顆鋸齒都長得像溜滑梯：一邊是斜坡，一邊是直直的牆。</p>
     <ul class="pts">
-      <li>往前推：棘爪頂住直的那一面，把棘輪一起推走。</li>
-      <li>往回拉：棘爪碰到的是斜坡，被斜坡抬起來、滑過去，棘輪不動。止動爪也卡著，棘輪沒辦法倒轉。</li>
+      <li><strong>往前推時</strong>，棘爪尖端抵住那面直牆，推不過去，只好把整個棘輪一起推著轉。</li>
+      <li><strong>往回拉時</strong>，棘爪碰到的是斜坡，就像從溜滑梯底下往上爬，被斜坡抬起來、翻過去，落進下一格。棘輪完全沒被帶動。</li>
     </ul>
+    <p>止動爪（灰色）是固定不動的，一直卡在鋸齒裡。棘輪往前轉時，它一樣沿斜坡滑過去（喀、喀、喀）；棘輪想往回轉時，它就頂住直牆，所以棘輪退不回去。</p>
 
     <div class="sim" id="ratchet">
-      <p class="label">SIM ・ 棘輪 12 齒，推一下走一齒</p>
+      <p class="label">SIM ・ 棘輪 12 齒，推一下走一格</p>
       <svg class="sq" viewBox="0 -30 340 330" role="img" aria-labelledby="rT">
         <title id="rT">棘輪、棘爪和止動爪。往前推時棘輪跟著轉，往回拉時棘爪滑過齒面，棘輪不動。</title>
         <!-- 推桿（連同棘爪一起擺動） -->
@@ -197,7 +199,7 @@
       <p class="msg" id="rMsg" aria-live="polite">黃色記號是棘輪目前的位置</p>
     </div>
 
-    <p>多按幾次就會發現：推一下、拉回來、再推一下，棘輪每次只走一齒，中間停住。所以<strong>棘輪也能做間歇運動</strong>，這是考題的陷阱。</p>
+    <p>整個動作就是：推一下，前進一格；拉回來，原地不動；再推一下，再前進一格。所以棘輪<strong>只能往一個方向轉</strong>，而且是<strong>一格一格地動</strong>（間歇運動）。</p>
     <p>腳踏車後輪就是棘輪：往前踩會帶動後輪；往後踩或不踩時，棘爪滑過齒面，發出「喀喀喀」的聲音。棘輪扳手也是同一個原理。</p>
   </section>
 
@@ -303,7 +305,7 @@
     wheel -= STEP; count++; forward = true;
     $("arm").style.transform = `rotate(${-STEP}deg)`;
     $("wheel").style.transform = `rotate(${wheel}deg)`;
-    $("rMsg").textContent = `棘爪頂住直面，棘輪跟著走一齒（共走了 ${count} 齒）`;
+    $("rMsg").textContent = `棘爪抵住直牆，棘輪被推著走一格（共走了 ${count} 格）`;
     $("push").disabled = true; $("pull").disabled = false;
   });
   $("pull").addEventListener("click", () => {
@@ -311,7 +313,7 @@
     $("pawl").style.transform = "rotate(-14deg)";          // 被斜坡抬起
     $("arm").style.transform = "rotate(0deg)";
     setTimeout(() => { $("pawl").style.transform = "rotate(0deg)"; }, 450);
-    $("rMsg").textContent = "喀！棘爪被斜坡抬起滑過去，棘輪不動";
+    $("rMsg").textContent = "喀！棘爪被斜坡抬起、落進下一格，棘輪不動";
     $("push").disabled = false; $("pull").disabled = true;
   });
 
