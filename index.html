@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>為什麼研究室｜現場與程式之間・Sierra</title>
-<meta name="description" content="我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。按下啟動鈕，讓輸送帶帶你看我的機電學習筆記、SEO 作品與經歷。">
+<meta name="description" content="我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。按下啟動鈕，讓輸送帶帶你看我的機電學習筆記、SEO 作品、日記與生活裡的為什麼。">
 <meta property="og:title" content="為什麼研究室｜現場與程式之間">
 <meta property="og:description" content="因為好奇開始學，因為想讓人看懂而寫下來。">
 <meta property="og:type" content="website">
@@ -65,6 +65,20 @@
   .intro .sub { font-family: var(--mono); color: var(--hazard); font-size: 14px; letter-spacing: .2em; margin-bottom: 10px; }
   .intro .lead { font-size: 19px; margin-top: 14px; }
   .intro .story { margin-top: 18px; color: var(--muted); max-width: 640px; }
+
+  /* 兩條線（文字版） */
+  .lines { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 30px; max-width: 980px; }
+  @media (max-width: 760px) { .lines { grid-template-columns: 1fr; gap: 22px; } }
+  .line-col h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .line-col h3::before { content: ""; width: 26px; height: 4px; border-radius: 2px; background: var(--c); }
+  .line-col.logic { --c: #2f7fd1; } .line-col.people { --c: #d9662b; }
+  .line-col dl { border-left: 2px solid var(--c); padding-left: 14px; }
+  .line-col dt { font-weight: 700; font-size: 15px; margin-top: 10px; }
+  .line-col dt small { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 8px; }
+  .line-col dd { color: var(--lead); font-size: 14.5px; line-height: 1.75; }
+  .line-both { grid-column: 1 / -1; border-top: 1px dashed #bfb39d; padding-top: 16px; }
+  .line-both dl { border-left: 2px solid; border-image: linear-gradient(#2f7fd1, #d9662b) 1; padding-left: 14px; }
+  .line-both .close { margin-top: 14px; font-weight: 700; }
 
   /* 設備區 */
   .rig {
@@ -282,9 +296,8 @@
     <ul>
       <li><a href="#mech">機電</a></li>
       <li><a href="#seo">SEO</a></li>
-      <li><a href="/about/">關於我</a></li>
-      <li><a href="#log">日誌</a></li>
-      <li><a href="#contact">聯絡</a></li>
+      <li><a href="/diary/">日記</a></li>
+      <li><a href="/why/">為什麼</a></li>
     </ul>
   </nav>
 </header>
@@ -295,6 +308,40 @@
     <h1>為什麼研究室</h1>
     <p class="lead">我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。</p>
     <p class="story">社工系讓我學會了解他人，國考讓我學會邏輯。<br>工地讓我看見邏輯怎麼變成運轉，SEO 讓我學會用文字了解他人。<br>每一段都不是轉行，而是同一條路。</p>
+
+    <div class="lines">
+      <div class="line-col logic">
+        <h3>邏輯</h3>
+        <dl>
+          <dt>國考<small>學會邏輯</small></dt>
+          <dd>從準備國考開始，我逐漸培養分析問題、整理資訊與建立邏輯的能力。</dd>
+          <dt>工地<small>看見邏輯變成運轉</small></dt>
+          <dd>在工地實際接觸配管、配線與設備施工後，開始看見原本抽象的邏輯，如何透過實際配置讓整個系統運轉起來。</dd>
+          <dt>機械組裝<small>精度決定整體</small></dt>
+          <dd>機械組裝讓我更直接感受到，一台設備是由許多零件共同組成，每個零件的位置、精度與安裝方式，都可能影響整體運作。</dd>
+          <dt>PLC<small>從「怎麼運作」到「為什麼」</small></dt>
+          <dd>PLC 讓我開始從「設備怎麼運作」，進一步思考「設備為什麼會這樣運作」，也開始理解控制邏輯如何轉換成實際的設備動作。</dd>
+        </dl>
+      </div>
+      <div class="line-col people">
+        <h3>了解他人</h3>
+        <dl>
+          <dt>社工系<small>學會理解他人</small></dt>
+          <dd>社工的學習讓我開始接觸人的需求與想法，學著從不同角度理解一個人的行為與選擇。</dd>
+          <dt>餐飲<small>理解環環相扣的配合</small></dt>
+          <dd>餐飲工作讓我感受到，一個看似簡單的成果，其實需要許多環節彼此配合。從備料、製作到出餐，每個環節都會影響下一個環節。</dd>
+          <dt>SEO<small>用文字理解系統及他人</small></dt>
+          <dd>SEO 讓我發現，搜尋一個關鍵字的背後，其實代表著一個人的需求。寫文章時要看懂 Google 的規則，但同時也要站在人的角度去寫。透過搜尋意圖、關鍵字與內容，我開始學習從文字理解系統，也理解使用者真正想找的是什麼。</dd>
+        </dl>
+      </div>
+      <div class="line-col line-both">
+        <dl>
+          <dt>網站架設<small>兩條線的交會：把想法變成能使用的系統</small></dt>
+          <dd>網站架設同時結合了「邏輯」與「理解他人」：一方面要思考網站的架構、功能與流程，另一方面也要站在使用者的角度思考需求。最後，再把一個抽象的想法，轉換成實際可以使用的系統。</dd>
+        </dl>
+        <p class="close">邏輯讓事情跑得動，了解他人讓事情有人用得上，少一條都不行。</p>
+      </div>
+    </div>
   </div>
 
   <div class="wrap rig">
@@ -352,7 +399,8 @@
         <div class="legs"><span></span><span></span><span></span></div>
         <a class="crate" href="#mech" data-i="0">機電<small>No.01</small></a>
         <a class="crate" href="#seo" data-i="1">SEO<small>No.02</small></a>
-        <a class="crate" href="/about/" data-i="2">關於我<small>No.03</small></a>
+        <a class="crate" href="/diary/" data-i="2">日記<small>No.03</small></a>
+        <a class="crate" href="/why/" data-i="3">為什麼<small>No.04</small></a>
       </div>
       <p class="hint">馬達停著的時候，箱子也可以直接點。</p>
     </div>
@@ -469,33 +517,29 @@
     </div>
   </section>
 
-  <section class="stub" id="about">
+  <section class="stub" id="diary">
     <div class="wrap">
       <p class="code">BOX No.03</p>
-      <h2>關於我</h2>
-      <p>邏輯線和了解他人線，最後都接到同一顆燈。</p>
-      <a class="case-link" href="/about/">
+      <h2>日記</h2>
+      <p>今天發生了什麼，我有什麼感覺。寫給自己看的。</p>
+      <a class="case-link" href="/diary/">
         <span class="case-no">BOX No.03</span>
-        <span class="case-title">兩條線，一顆燈</span>
-        <span class="case-sub">從社工系、國考、工地到 SEO，每一段怎麼接在一起 →</span>
+        <span class="case-title">翻開日記本</span>
+        <span class="case-sub">依時間排，按月份翻 →</span>
       </a>
     </div>
   </section>
 
-  <section class="stub" id="log">
+  <section class="stub" id="why">
     <div class="wrap">
-      <p class="code">LOG</p>
-      <h2>日誌</h2>
-      <p>學習筆記、除錯紀錄。</p>
-      <span class="wip">施工中</span>
-    </div>
-  </section>
-
-  <section class="stub" id="contact">
-    <div class="wrap">
-      <p class="code">CONTACT</p>
-      <h2>聯絡</h2>
-      <p>聯絡方式即將補上。</p>
+      <p class="code">BOX No.04</p>
+      <h2>為什麼</h2>
+      <p>生活裡冒出來的問題，和我查到或想到的答案。</p>
+      <a class="case-link" href="/why/">
+        <span class="case-no">BOX No.04</span>
+        <span class="case-title">一題一題的為什麼</span>
+        <span class="case-sub">用標籤找，點問題看答案 →</span>
+      </a>
     </div>
   </section>
 </main>

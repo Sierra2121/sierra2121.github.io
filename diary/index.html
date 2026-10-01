@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!-- 頁面：日記｜網址：/diary/ -->
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日記｜Sierra・為什麼研究室</title>
+<meta name="description" content="Sierra 的日記：今天發生了什麼，我有什麼感覺。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2ebdd;
+    --bg2: #e8dfcc;
+    --text: #2a2621;
+    --muted: #6e665a;
+    --hazard: #946500;
+    --line: #d8ccb4;
+    --paper: #fbf7ee;
+    --rule: #e6dcc8;
+    --margin: #e3a99a;
+    --ink: #2f2a24;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: "Noto Sans TC", system-ui, sans-serif; line-height: 1.8; font-size: 16px; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* 全站共用：警示條紋、導覽列、頁尾 */
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, #f2c230 0 14px, #111 14px 28px); }
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  /* 頁首 */
+  .head { padding: 44px 0 26px; }
+  .head h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.3; }
+  .head p { color: var(--muted); margin-top: 6px; }
+
+  /* 本子 + 月份索引 */
+  .desk { display: flex; align-items: flex-start; gap: 0; padding-bottom: 20px; }
+  .book {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; position: relative;
+    background: var(--paper); border-radius: 6px;
+    box-shadow: 0 1px 0 #cdbfa4, 0 14px 30px rgba(80,60,30,.16);
+    min-height: 560px;
+  }
+  .book::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 36px; margin-left: -18px; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(120,95,55,.13) 45%, rgba(120,95,55,.2) 50%, rgba(120,95,55,.13) 55%, transparent);
+  }
+  .page {
+    position: relative; padding: 34px 38px 44px 54px; color: var(--ink);
+    background-image: repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px);
+    background-position: 0 86px;
+  }
+  .page::before { content: ""; position: absolute; top: 0; bottom: 0; left: 38px; width: 1px; background: var(--margin); opacity: .7; }
+  .page.right { padding-left: 58px; }
+  .page.right::before { left: 42px; }
+  .date { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; height: 52px; }
+  .date b { font-size: 21px; font-weight: 700; letter-spacing: .02em; }
+  .date span { font-size: 14px; color: var(--muted); }
+  .body { margin-top: 2px; font-size: 16px; line-height: 32px; white-space: pre-wrap; }
+  .body p + p { margin-top: 0; }
+  .folio { position: absolute; bottom: 14px; font-family: var(--mono); font-size: 11px; color: #a89b85; }
+  .left .folio { left: 54px; } .right .folio { right: 38px; }
+  .blank { color: #b3a68f; font-size: 14px; }
+  .empty { grid-column: 1 / -1; display: grid; place-items: center; text-align: center; color: var(--muted); padding: 40px; }
+  .empty b { display: block; font-size: 18px; color: var(--ink); margin-bottom: 6px; }
+
+  .tabs { display: flex; flex-direction: column; gap: 6px; padding-top: 28px; margin-left: -2px; }
+  .tab {
+    font: 500 13px "Noto Sans TC", sans-serif; text-align: left; cursor: pointer; white-space: nowrap;
+    padding: 6px 14px 6px 12px; border: 1px solid #d3c4a6; border-left: none; border-radius: 0 8px 8px 0;
+    background: #efe5d1; color: var(--muted); transition: transform .12s, background .12s;
+  }
+  .tab small { display: block; font-family: var(--mono); font-size: 10px; color: #a89b85; line-height: 1.2; }
+  .tab:hover { transform: translateX(3px); }
+  .tab[aria-current="true"] { background: var(--paper); color: var(--ink); font-weight: 700; transform: translateX(4px); }
+  .tab:focus-visible, .flip:focus-visible { outline: 3px solid var(--hazard); outline-offset: 2px; }
+
+  .controls { display: flex; justify-content: center; align-items: center; gap: 18px; padding: 8px 0 50px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+  .flip {
+    font: 500 14px "Noto Sans TC", sans-serif; cursor: pointer; padding: 6px 16px; border-radius: 4px;
+    background: transparent; color: var(--text); border: 1px solid #bfae8e;
+  }
+  .flip:disabled { opacity: .35; cursor: default; }
+
+  .book.turn-next .page { animation: inR .35s ease-out; }
+  .book.turn-prev .page { animation: inL .35s ease-out; }
+  @keyframes inR { from { opacity: .2; transform: translateX(10px); } }
+  @keyframes inL { from { opacity: .2; transform: translateX(-10px); } }
+  @media (prefers-reduced-motion: reduce) { .book .page { animation: none !important; } }
+
+  /* 手機：一次一頁，月份索引改到上方 */
+  @media (max-width: 760px) {
+    .desk { flex-direction: column-reverse; }
+    .book { grid-template-columns: 1fr; width: 100%; min-height: 460px; }
+    .book::after { display: none; }
+    .page.right { display: none; }
+    .page { padding: 28px 22px 44px 44px; }
+    .page::before { left: 30px; }
+    .tabs { flex-direction: row; overflow-x: auto; padding: 0 0 0 4px; margin: 0; gap: 4px; width: 100%; }
+    .tab { border: 1px solid #d3c4a6; border-bottom: none; border-radius: 8px 8px 0 0; }
+    .tab:hover, .tab[aria-current="true"] { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/#mech">機電</a></li>
+      <li><a href="/#seo">SEO</a></li>
+      <li><a href="/diary/" aria-current="page">日記</a></li>
+      <li><a href="/why/">為什麼</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="head">
+    <h1>日記</h1>
+    <p>今天發生了什麼，我有什麼感覺。</p>
+  </div>
+
+  <div class="desk">
+    <div class="book" id="book" aria-live="polite"></div>
+    <div class="tabs" id="tabs" aria-label="月份索引"></div>
+  </div>
+
+  <div class="controls">
+    <button class="flip" id="prev">← 前一頁</button>
+    <span id="pos"></span>
+    <button class="flip" id="next">下一頁 →</button>
+  </div>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+<script>
+/*
+  ── 寫日記的地方 ──
+  每一篇照下面的格式加一組 { }，順序不用排，頁面會自動依日期排好。
+  date：日期（YYYY-MM-DD）
+  weather：天氣，可以不寫（寫 "" 就好）
+  text：內容。換行就直接按 Enter，用反引號 ` ` 包起來。
+  不想公開的日記，不要放在這裡（放進來就算公開）。
+
+  例：
+  {
+    date: "2026-10-01",
+    weather: "晴",
+    text: `今天……`
+  },
+*/
+const entries = [
+
+];
+</script>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const WEEK = "日一二三四五六";
+  const list = entries
+    .filter(e => e && e.date && e.text)
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const book = $("book"), tabs = $("tabs");
+  const mobile = () => matchMedia("(max-width: 760px)").matches;
+  const per = () => (mobile() ? 1 : 2);
+  let cur = 0;                               // 目前這一頁（或左頁）是第幾篇
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function fmt(d) {
+    const [y, m, day] = d.split("-").map(Number);
+    const w = new Date(y, m - 1, day).getDay();
+    return `${y}.${String(m).padStart(2, "0")}.${String(day).padStart(2, "0")}（${WEEK[w]}）`;
+  }
+  function page(i, side) {
+    const e = list[i];
+    if (!e) return `<div class="page ${side}"><p class="blank">（這一頁還空著）</p></div>`;
+    return `<article class="page ${side}">
+      <div class="date"><b>${fmt(e.date)}</b><span>${esc(e.weather || "")}</span></div>
+      <div class="body">${esc(e.text.trim())}</div>
+      <span class="folio">${i + 1}</span>
+    </article>`;
+  }
+
+  // 月份索引
+  const months = [];
+  list.forEach((e, i) => {
+    const key = e.date.slice(0, 7);
+    const last = months[months.length - 1];
+    if (!last || last.key !== key) months.push({ key, first: i, count: 1 });
+    else last.count++;
+  });
+  tabs.innerHTML = months.map(m => {
+    const [y, mo] = m.key.split("-");
+    return `<button class="tab" data-first="${m.first}">${Number(mo)} 月<small>${y}・${m.count} 篇</small></button>`;
+  }).join("");
+  tabs.querySelectorAll(".tab").forEach(t =>
+    t.addEventListener("click", () => go(Number(t.dataset.first), "jump")));
+
+  function align(i) { const p = per(); return Math.max(0, Math.floor(i / p) * p); }
+
+  function render(dir) {
+    if (!list.length) {
+      book.innerHTML = `<div class="empty"><div><b>第一篇還沒寫</b>本子已經攤開了。</div></div>`;
+      $("prev").disabled = $("next").disabled = true;
+      $("pos").textContent = "";
+      return;
+    }
+    cur = align(cur);
+    book.innerHTML = page(cur, "left") + (per() === 2 ? page(cur + 1, "right") : "");
+    book.classList.remove("turn-next", "turn-prev");
+    if (dir === "next" || dir === "prev") { void book.offsetWidth; book.classList.add("turn-" + dir); }
+    $("prev").disabled = cur === 0;
+    $("next").disabled = cur + per() >= list.length;
+    const end = Math.min(cur + per(), list.length);
+    $("pos").textContent = end - cur > 1 ? `${cur + 1}–${end} / ${list.length}` : `${cur + 1} / ${list.length}`;
+    const key = list[cur].date.slice(0, 7);
+    tabs.querySelectorAll(".tab").forEach((t, i) => t.setAttribute("aria-current", months[i].key === key));
+  }
+  function go(i, dir) {
+    if (i < 0 || i >= list.length) return;
+    cur = i; render(dir);
+  }
+  $("prev").addEventListener("click", () => go(cur - per(), "prev"));
+  $("next").addEventListener("click", () => go(cur + per(), "next"));
+  document.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") go(cur - per(), "prev");
+    if (e.key === "ArrowRight") go(cur + per(), "next");
+  });
+  let lastPer = per();
+  window.addEventListener("resize", () => { if (per() !== lastPer) { lastPer = per(); render(); } });
+
+  // 一打開就翻到最新的那一頁
+  cur = list.length ? list.length - 1 : 0;
+  render();
+})();
+</script>
+</body>
+</html>
