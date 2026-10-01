@@ -54,7 +54,7 @@
   nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
   .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
   .logo a { text-decoration: none; }
-  .logo .sierra:hover small, .logo .sierra:focus-visible small { color: var(--text); }
+  #sierra { -webkit-tap-highlight-color: transparent; user-select: none; }
   .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
   nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
   nav ul a { text-decoration: none; color: var(--muted); }
@@ -307,7 +307,7 @@
 <div class="hazard-strip"></div>
 <header>
   <nav class="wrap">
-    <span class="logo"><a href="#">為什麼研究室</a><a class="sierra" href="/diary/" aria-label="Sierra 的日記"><small>SIERRA</small></a></span>
+    <span class="logo"><a href="#">為什麼研究室</a><small id="sierra">SIERRA</small></span>
     <ul>
       <li><a href="#mech">機電</a></li>
       <li><a href="#seo">SEO</a></li>
@@ -525,6 +525,9 @@
   <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
 </footer>
 
+<script>
+document.getElementById("sierra").addEventListener("click", () => { location.href = "/diary/"; });
+</script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
