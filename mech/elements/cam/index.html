@@ -13,20 +13,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #17191b;
-    --bg2: #1f2225;
-    --bg3: #0f1112;
-    --line: #2c2f33;
+    --bg: #f2ebdd;
+    --bg2: #e8dfcc;
+    --bg3: #fbf7ef;
+    --line: #cdbfa5;
     --metal: #3a3e43;
     --metal-hi: #52575d;
     --metal-lo: #2a2d31;
-    --text: #e9e6df;
-    --muted: #9a978f;
-    --hazard: #f2c230;
-    --amber: #ffb347;
-    --red: #ff4b3e;
+    --text: #2a2621;
+    --muted: #6e665a;
+    --hazard: #946500;
+    --amber: #b35a00;
+    --red: #c8322a;
     --wire-off: #5b6066;
     --mono: "JetBrains Mono", ui-monospace, monospace;
+    --lead: #4a443b;
+    --soft: #5a5348;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -54,7 +56,7 @@
   .hero { padding: 26px 0 30px; }
   .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
   .hero h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 900; line-height: 1.35; margin-top: 4px; }
-  .hero .lead { margin-top: 14px; color: #d8d4cb; }
+  .hero .lead { margin-top: 14px; color: var(--lead); }
 
   section.block { padding: 40px 0; border-top: 1px solid var(--line); }
   h2 { font-size: clamp(22px, 4vw, 27px); font-weight: 900; line-height: 1.4; margin-top: 4px; margin-bottom: 14px; }
@@ -130,6 +132,10 @@
   .fol svg { width: 100%; max-width: 200px; display: block; margin: 0 auto; }
   .fol figcaption { font-weight: 700; margin-top: 6px; }
   .fol figcaption small { display: block; font-weight: 400; color: var(--muted); font-size: 14px; line-height: 1.7; margin-top: 4px; }
+
+  /* 米色底：機械與控制盤保持深色金屬 */
+  .hazard-strip { --hazard: #f2c230; }
+  .sim, .fol figure { --bg:#17191b;--bg2:#1f2225;--bg3:#0f1112;--line:#2c2f33;--text:#e9e6df;--muted:#9a978f;--hazard:#f2c230;--amber:#ffb347;--red:#ff4b3e;--wire-on:#ffb347;--lead:#d8d4cb;--soft:#cfcac0; color: var(--text); }
 </style>
 </head>
 <body>

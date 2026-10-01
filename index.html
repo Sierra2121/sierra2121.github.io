@@ -13,20 +13,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #17191b;
-    --bg2: #1f2225;
+    --bg: #f2ebdd;
+    --bg2: #e8dfcc;
     --metal: #3a3e43;
     --metal-hi: #52575d;
     --metal-lo: #2a2d31;
-    --text: #e9e6df;
-    --muted: #9a978f;
-    --hazard: #f2c230;
+    --text: #2a2621;
+    --muted: #6e665a;
+    --hazard: #946500;
     --green: #2fd26b;
-    --red: #ff4b3e;
+    --red: #c8322a;
     --yellow: #ffd23f;
-    --wire-on: #ffb347;
+    --wire-on: #e07800;
     --wire-off: #5b6066;
     --mono: "JetBrains Mono", ui-monospace, monospace;
+    --lead: #4a443b;
+    --soft: #5a5348;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -48,7 +50,7 @@
   }
 
   /* 導覽列 */
-  header { border-bottom: 1px solid #2c2f33; }
+  header { border-bottom: 1px solid var(--line); }
   nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
   .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
   .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
@@ -92,7 +94,7 @@
     text-align: center; padding: 6px; border-radius: 3px; letter-spacing: .08em; margin-bottom: 20px;
   }
   .lamps { display: flex; justify-content: space-around; margin-bottom: 24px; }
-  .lamp { text-align: center; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .lamp { text-align: center; font-family: var(--mono); font-size: 11px; color: var(--soft); }
   .bulb {
     width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 6px;
     border: 3px solid #222; transition: background .15s, box-shadow .15s;
@@ -104,7 +106,7 @@
   .lamp .desc { color: var(--muted); font-size: 10px; }
 
   .buttons { display: flex; justify-content: space-around; margin-bottom: 20px; }
-  .pb { text-align: center; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .pb { text-align: center; font-family: var(--mono); font-size: 11px; color: var(--soft); }
   .pb button {
     width: 62px; height: 62px; border-radius: 50%; border: 5px solid #1b1b1b; cursor: pointer;
     box-shadow: 0 5px 0 #0c0c0c, inset 0 -4px 6px rgba(0,0,0,.35), inset 0 3px 4px rgba(255,255,255,.3);
@@ -147,7 +149,7 @@
     content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 12px; margin-left: -2px;
     background: #eee; z-index: 1; border-radius: 2px;
   }
-  .knob-labels { display: flex; justify-content: space-between; font-size: 10px; color: #cfcac0; width: 80px; margin: -2px auto 2px; }
+  .knob-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--soft); width: 80px; margin: -2px auto 2px; }
   .knob-labels .act { color: var(--hazard); font-weight: 700; }
 
   .es-base {
@@ -173,7 +175,7 @@
   #timerVal { font-size: 20px; font-weight: 700; color: #ff5a3c; letter-spacing: .08em; text-shadow: 0 0 6px rgba(255,90,60,.6); }
   #timerVal.idle { color: #4a2a22; text-shadow: none; }
 
-  .heat { margin-top: 18px; font-family: var(--mono); font-size: 11px; color: #cfcac0; }
+  .heat { margin-top: 18px; font-family: var(--mono); font-size: 11px; color: var(--soft); }
   .heat .bar { height: 8px; background: #111; border-radius: 4px; overflow: hidden; margin-top: 4px; }
   .heat .fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--yellow), var(--red)); transition: width .2s; }
 
@@ -184,7 +186,7 @@
   .msg::before { content: "> "; color: var(--muted); }
 
   /* 輸送帶 */
-  .conveyor-box { grid-area: conveyor; background: var(--bg2); border-radius: 10px; padding: 18px 18px 22px; border: 1px solid #2c2f33; }
+  .conveyor-box { grid-area: conveyor; background: var(--bg2); border-radius: 10px; padding: 18px 18px 22px; border: 1px solid var(--line); }
   .label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; margin-bottom: 10px; }
   .conveyor { position: relative; height: 190px; overflow: hidden; }
   .belt {
@@ -230,7 +232,7 @@
   .hint { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
   /* 階梯圖 */
-  .ladder-box { grid-area: ladder; background: var(--bg2); border-radius: 10px; padding: 18px; border: 1px solid #2c2f33; }
+  .ladder-box { grid-area: ladder; background: var(--bg2); border-radius: 10px; padding: 18px; border: 1px solid var(--line); }
   .ladder svg { width: 100%; height: auto; display: block; }
   .ladder text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
   .rail { stroke: #7a7f85; stroke-width: 3; }
@@ -244,7 +246,7 @@
   .legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 5px; }
 
   /* 下方區塊 */
-  section.stub { padding: 56px 0; border-top: 1px solid #2c2f33; }
+  section.stub { padding: 56px 0; border-top: 1px solid var(--line); }
   section.stub h2 { font-size: 28px; font-weight: 900; }
   section.stub .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
   section.stub p { color: var(--muted); margin-top: 8px; }
@@ -265,6 +267,10 @@
   @media (prefers-reduced-motion: reduce) {
     .belt.run, .run .roller, .motor.run .fan { animation: none; }
   }
+
+  /* 米色底：機械與控制盤保持深色金屬 */
+  .hazard-strip { --hazard: #f2c230; }
+  .panel, .msg, .case-link { --bg:#17191b;--bg2:#1f2225;--bg3:#0f1112;--line:#2c2f33;--text:#e9e6df;--muted:#9a978f;--hazard:#f2c230;--amber:#ffb347;--red:#ff4b3e;--wire-on:#ffb347;--lead:#d8d4cb;--soft:#cfcac0; color: var(--text); }
 </style>
 </head>
 <body>
