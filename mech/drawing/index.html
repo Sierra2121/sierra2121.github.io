@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>製圖識圖｜為什麼研究室</title>
+<meta name="description" content="製圖識圖觀念筆記：線條種類、視圖判讀與繪製規則。">
+<meta property="og:title" content="自動化機械元件｜製圖識圖 觀念筆記">
+<meta property="og:description" content="乙級機電整合題組 1 的觀念筆記，每一篇只講為什麼。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2ebdd;
+    --bg2: #e8dfcc;
+    --bg3: #fbf7ef;
+    --line: #cdbfa5;
+    --text: #2a2621;
+    --muted: #6e665a;
+    --hazard: #946500;
+    --amber: #b35a00;
+    --wire-off: #5b6066;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --lead: #4a443b;
+    --soft: #5a5348;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+    line-height: 1.85; font-size: 16px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px); }
+
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  .crumb { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 22px 0 0; }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--hazard); }
+
+  .hero { padding: 26px 0 10px; }
+  .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  .hero h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 900; line-height: 1.3; margin-top: 4px; }
+  .hero .lead { margin-top: 12px; color: var(--lead); max-width: 680px; }
+
+  /* 階梯圖：左右母線，一條迴路一篇筆記 */
+  .ladder {
+    position: relative; margin: 34px 0 70px; padding: 18px 0;
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 10px;
+  }
+  .ladder .label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; padding: 0 22px 8px; }
+  .rails { position: relative; margin: 0 22px; }
+  .rails::before, .rails::after { content: ""; position: absolute; top: 0; bottom: 0; width: 4px; background: var(--amber); border-radius: 2px; }
+  .rails::before { left: 0; }
+  .rails::after { right: 0; }
+
+  .rung {
+    display: flex; align-items: center; min-height: 92px; text-decoration: none; position: relative;
+    padding: 0 4px;
+  }
+  .rung .step { font-family: var(--mono); font-size: 11px; color: var(--muted); position: absolute; left: 12px; top: 6px; }
+  .rung .wire { flex: 1; height: 3px; background: var(--wire); }
+  .rung { --wire: var(--amber); }
+  .rung.wip { --wire: var(--wire-off); }
+  .rung.wip .wire { background: repeating-linear-gradient(90deg, var(--wire-off) 0 8px, transparent 8px 14px); }
+
+  /* 常開接點 -| |- */
+  .contact { flex: none; display: flex; align-items: center; gap: 0; position: relative; }
+  .contact .bar { width: 3px; height: 30px; background: var(--wire); }
+  .contact .gap { width: 22px; }
+  .rung .tag {
+    flex: none; margin: 0 14px; text-align: left; max-width: 52%;
+  }
+  .rung .tag .t { display: block; font-weight: 700; font-size: 18px; line-height: 1.4; }
+  .rung .tag .s { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+  .rung.wip .tag .t { color: #b8b3a8; font-weight: 500; }
+  /* 線圈 ( ) */
+  .coil { flex: none; width: 34px; height: 34px; border: 3px solid var(--wire); border-left-color: var(--wire); border-radius: 50%;
+    border-top-color: transparent; border-bottom-color: transparent; margin: 0 4px; }
+  .coilbox { flex: none; position: relative; display: block; }
+  .coilbox .coil { display: block; }
+  .coil-name { position: absolute; left: 50%; top: -20px; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .rung .wire.end { flex: 0 0 22px; }
+  a.rung:hover .tag .t, a.rung:focus-visible .tag .t { color: var(--hazard); }
+  a.rung:focus-visible { outline: 1px dashed var(--hazard); outline-offset: -4px; }
+  .rung + .rung { border-top: 1px solid #262a2d; }
+
+  @media (max-width: 560px) {
+    .rung .tag { max-width: 60%; margin: 0 8px; }
+    .rung .tag .t { font-size: 16px; }
+  }
+
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  /* 米色底：機械與控制盤保持深色金屬 */
+  .hazard-strip { --hazard: #f2c230; }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/mech/" aria-current="page">機電</a></li>
+      <li><a href="/#seo">SEO</a></li>
+      <li><a href="/about/">關於我</a></li>
+      <li><a href="/#log">日誌</a></li>
+      <li><a href="/#contact">聯絡</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/">首頁</a> / <a href="/mech/">機電</a> / 製圖識圖</p>
+
+  <div class="hero">
+    <p class="code">NFB-09・製圖識圖</p>
+    <h1>製圖識圖</h1>
+    <p class="lead">看懂圖，才知道要做出什麼。線條、視圖、標註的規則，一條迴路一個觀念。</p>
+  </div>
+
+  <div class="ladder">
+    <p class="label">LADDER ・ 製圖識圖 觀念筆記</p>
+    <div class="rails">
+
+      <!-- 一條迴路 = 一篇筆記。新增時複製這整段 <a class="rung">…</a>，改網址、編號和文字 -->
+      <a class="rung" href="/mech/drawing/line-priority/">
+        <span class="step">0001</span>
+        <span class="wire"></span>
+        <span class="contact"><span class="bar"></span><span class="gap"></span><span class="bar"></span></span>
+        <span class="tag">
+          <span class="t">視圖線條的優先順序</span>
+          <span class="s">輪廓線、隱藏線、割面線、中心線重疊時保留哪條</span>
+        </span>
+        <span class="wire"></span>
+        <span class="coilbox"><span class="coil"></span><span class="coil-name">N001</span></span>
+        <span class="wire end"></span>
+      </a>
+
+      <div class="rung wip">
+        <span class="step">0002</span>
+        <span class="wire"></span>
+        <span class="contact"><span class="bar"></span><span class="gap"></span><span class="bar"></span></span>
+        <span class="tag">
+          <span class="t">下一個觀念</span>
+          <span class="s">施工中</span>
+        </span>
+        <span class="wire"></span>
+        <span class="coilbox"><span class="coil"></span><span class="coil-name">N002</span></span>
+        <span class="wire end"></span>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+</body>
+</html>
