@@ -60,25 +60,38 @@
   @media (max-width: 640px) { nav ul { display: none; } }
 
   /* 開場 */
-  .intro { padding: 56px 0 36px; }
+  .intro { padding-top: 56px; padding-bottom: 36px; }
   .intro h1 { font-size: clamp(34px, 6vw, 56px); font-weight: 900; line-height: 1.25; }
   .intro .sub { font-family: var(--mono); color: var(--hazard); font-size: 14px; letter-spacing: .2em; margin-bottom: 10px; }
   .intro .lead { font-size: 19px; margin-top: 14px; }
   .intro .story { margin-top: 18px; color: var(--muted); max-width: 640px; }
 
-  /* 兩條線（文字版） */
-  .lines { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 30px; max-width: 980px; }
-  @media (max-width: 760px) { .lines { grid-template-columns: 1fr; gap: 22px; } }
-  .line-col h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .line-col h3::before { content: ""; width: 26px; height: 4px; border-radius: 2px; background: var(--c); }
-  .line-col.logic { --c: #2f7fd1; } .line-col.people { --c: #d9662b; }
-  .line-col dl { border-left: 2px solid var(--c); padding-left: 14px; }
-  .line-col dt { font-weight: 700; font-size: 15px; margin-top: 10px; }
-  .line-col dt small { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 8px; }
-  .line-col dd { color: var(--lead); font-size: 14.5px; line-height: 1.75; }
-  .line-both { grid-column: 1 / -1; border-top: 1px dashed #bfb39d; padding-top: 16px; }
-  .line-both dl { border-left: 2px solid; border-image: linear-gradient(#2f7fd1, #d9662b) 1; padding-left: 14px; }
-  .line-both .close { margin-top: 14px; font-weight: 700; }
+  /* 經歷：一條雙向流通的線 */
+  .path { position: relative; display: flex; align-items: flex-start; margin-top: 34px; max-width: 1000px; }
+  .path::before { content: ""; position: absolute; left: 24px; right: 24px; top: 15px; height: 2px; background: #9a8f7e; }
+  .spark {
+    position: absolute; top: 11px; left: 24px; width: 10px; height: 10px; border-radius: 50%;
+    background: var(--wire-on); box-shadow: 0 0 10px var(--wire-on), 0 0 3px #fff inset;
+    animation: ac 6s ease-in-out infinite alternate;
+  }
+  @keyframes ac { to { left: calc(100% - 34px); } }
+  .stop { flex: 1; text-align: center; position: relative; }
+  .stop b { display: inline-block; background: var(--bg); padding: 0 8px; font-size: 17px; line-height: 32px; position: relative; z-index: 1; }
+  .stop span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+  .arr { flex: none; width: 22px; text-align: center; font-style: normal; line-height: 32px; color: #7d7364; background: var(--bg); position: relative; z-index: 1; }
+  .intro .close { margin-top: 22px; font-weight: 700; color: var(--lead); }
+  @media (max-width: 760px) {
+    .path { flex-direction: column; gap: 4px; }
+    .path::before { left: 34px; right: auto; top: 14px; bottom: 30px; width: 2px; height: auto; }
+    .spark { left: 30px; top: 12px; animation-name: acv; }
+    @keyframes acv { to { top: calc(100% - 40px); } }
+    .stop { display: flex; align-items: baseline; gap: 10px; text-align: left; }
+    .stop b { width: 70px; text-align: center; padding: 0; flex: none; }
+    .stop span { margin: 0; }
+    .arr { width: 70px; transform: none; line-height: 18px; }
+    .arr::before { content: "↕"; } .arr { font-size: 0; } .arr::before { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .spark { animation: none; } }
 
   /* 設備區 */
   .rig {
@@ -307,41 +320,17 @@
     <p class="sub">現場與程式之間</p>
     <h1>為什麼研究室</h1>
     <p class="lead">我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。</p>
-    <p class="story">社工系讓我學會了解他人，國考讓我學會邏輯。<br>工地讓我看見邏輯怎麼變成運轉，SEO 讓我學會用文字了解他人。<br>每一段都不是轉行，而是同一條路。</p>
-
-    <div class="lines">
-      <div class="line-col logic">
-        <h3>邏輯</h3>
-        <dl>
-          <dt>國考<small>學會邏輯</small></dt>
-          <dd>從準備國考開始，我逐漸培養分析問題、整理資訊與建立邏輯的能力。</dd>
-          <dt>工地<small>看見邏輯變成運轉</small></dt>
-          <dd>在工地實際接觸配管、配線與設備施工後，開始看見原本抽象的邏輯，如何透過實際配置讓整個系統運轉起來。</dd>
-          <dt>機械組裝<small>精度決定整體</small></dt>
-          <dd>機械組裝讓我更直接感受到，一台設備是由許多零件共同組成，每個零件的位置、精度與安裝方式，都可能影響整體運作。</dd>
-          <dt>PLC<small>從「怎麼運作」到「為什麼」</small></dt>
-          <dd>PLC 讓我開始從「設備怎麼運作」，進一步思考「設備為什麼會這樣運作」，也開始理解控制邏輯如何轉換成實際的設備動作。</dd>
-        </dl>
-      </div>
-      <div class="line-col people">
-        <h3>了解他人</h3>
-        <dl>
-          <dt>社工系<small>學會理解他人</small></dt>
-          <dd>社工的學習讓我開始接觸人的需求與想法，學著從不同角度理解一個人的行為與選擇。</dd>
-          <dt>餐飲<small>理解環環相扣的配合</small></dt>
-          <dd>餐飲工作讓我感受到，一個看似簡單的成果，其實需要許多環節彼此配合。從備料、製作到出餐，每個環節都會影響下一個環節。</dd>
-          <dt>SEO<small>用文字理解系統及他人</small></dt>
-          <dd>SEO 讓我發現，搜尋一個關鍵字的背後，其實代表著一個人的需求。寫文章時要看懂 Google 的規則，但同時也要站在人的角度去寫。透過搜尋意圖、關鍵字與內容，我開始學習從文字理解系統，也理解使用者真正想找的是什麼。</dd>
-        </dl>
-      </div>
-      <div class="line-col line-both">
-        <dl>
-          <dt>網站架設<small>兩條線的交會：把想法變成能使用的系統</small></dt>
-          <dd>網站架設同時結合了「邏輯」與「理解他人」：一方面要思考網站的架構、功能與流程，另一方面也要站在使用者的角度思考需求。最後，再把一個抽象的想法，轉換成實際可以使用的系統。</dd>
-        </dl>
-        <p class="close">邏輯讓事情跑得動，了解他人讓事情有人用得上，少一條都不行。</p>
-      </div>
+    <div class="path" role="list" aria-label="經歷，依時間排列，彼此雙向影響">
+      <span class="spark" aria-hidden="true"></span>
+      <div class="stop" role="listitem"><b>社工</b><span>感受他人</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>國考</b><span>了解規則</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>工地</b><span>看見系統運轉</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>機械</b><span>理解精度</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>PLC</b><span>把邏輯變成控制</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>SEO</b><span>理解需求</span></div><i class="arr" aria-hidden="true">↔</i>
+      <div class="stop" role="listitem"><b>網站</b><span>把想法變成系統</span></div>
     </div>
+    <p class="close">每一段都不是轉行，是同一條線上的交流。</p>
   </div>
 
   <div class="wrap rig">
