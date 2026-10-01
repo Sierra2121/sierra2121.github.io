@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>為什麼研究室｜現場與程式之間・Sierra</title>
-<meta name="description" content="我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。按下啟動鈕，讓輸送帶帶你看我的機電學習筆記、SEO 作品、日記與生活裡的為什麼。">
+<meta name="description" content="我是 Sierra。因為好奇開始學，因為想讓人看懂而寫下來。按下啟動鈕，讓輸送帶帶你看我的機電學習筆記、SEO 作品與生活裡的為什麼。">
 <meta property="og:title" content="為什麼研究室｜現場與程式之間">
 <meta property="og:description" content="因為好奇開始學，因為想讓人看懂而寫下來。">
 <meta property="og:type" content="website">
@@ -53,6 +53,8 @@
   header { border-bottom: 1px solid var(--line); }
   nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
   .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo a { text-decoration: none; }
+  .logo .sierra:hover small, .logo .sierra:focus-visible small { color: var(--text); }
   .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
   nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
   nav ul a { text-decoration: none; color: var(--muted); }
@@ -305,11 +307,10 @@
 <div class="hazard-strip"></div>
 <header>
   <nav class="wrap">
-    <a class="logo" href="#">為什麼研究室<small>SIERRA</small></a>
+    <span class="logo"><a href="#">為什麼研究室</a><a class="sierra" href="/diary/" aria-label="Sierra 的日記"><small>SIERRA</small></a></span>
     <ul>
       <li><a href="#mech">機電</a></li>
       <li><a href="#seo">SEO</a></li>
-      <li><a href="/diary/">日記</a></li>
       <li><a href="/why/">為什麼</a></li>
     </ul>
   </nav>
@@ -388,8 +389,7 @@
         <div class="legs"><span></span><span></span><span></span></div>
         <a class="crate" href="#mech" data-i="0">機電<small>No.01</small></a>
         <a class="crate" href="#seo" data-i="1">SEO<small>No.02</small></a>
-        <a class="crate" href="/diary/" data-i="2">日記<small>No.03</small></a>
-        <a class="crate" href="/why/" data-i="3">為什麼<small>No.04</small></a>
+        <a class="crate" href="/why/" data-i="2">為什麼<small>No.03</small></a>
       </div>
       <p class="hint">馬達停著的時候，箱子也可以直接點。</p>
     </div>
@@ -506,26 +506,13 @@
     </div>
   </section>
 
-  <section class="stub" id="diary">
-    <div class="wrap">
-      <p class="code">BOX No.03</p>
-      <h2>日記</h2>
-      <p>今天發生了什麼，我有什麼感覺。寫給自己看的。</p>
-      <a class="case-link" href="/diary/">
-        <span class="case-no">BOX No.03</span>
-        <span class="case-title">翻開日記本</span>
-        <span class="case-sub">依時間排，按月份翻 →</span>
-      </a>
-    </div>
-  </section>
-
   <section class="stub" id="why">
     <div class="wrap">
-      <p class="code">BOX No.04</p>
+      <p class="code">BOX No.03</p>
       <h2>為什麼</h2>
       <p>生活裡冒出來的問題，和我查到或想到的答案。</p>
       <a class="case-link" href="/why/">
-        <span class="case-no">BOX No.04</span>
+        <span class="case-no">BOX No.03</span>
         <span class="case-title">一題一題的為什麼</span>
         <span class="case-sub">用標籤找，點問題看答案 →</span>
       </a>
