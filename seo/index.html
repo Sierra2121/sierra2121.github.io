@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!-- 頁面：SEO 監控室｜網址：/seo/ -->
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO 監控室｜Sierra・為什麼研究室</title>
+<meta name="description" content="Sierra 的 SEO：案例、方法、筆記。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2ebdd;
+    --text: #2a2621;
+    --muted: #6e665a;
+    --hazard: #946500;
+    --line: #d8ccb4;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    /* 螢幕內 */
+    --scr: #0d0f10;
+    --scr2: #15181a;
+    --grid: #1f2326;
+    --ink: #e9e6df;
+    --dim: #8e8a82;
+    --amber: #ffb347;
+    --amber-d: #5a3f17;
+    --yel: #f2c230;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: "Noto Sans TC", system-ui, sans-serif; line-height: 1.8; font-size: 16px; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* 全站共用 */
+  .hazard-strip { height: 10px; background: repeating-linear-gradient(-45deg, #f2c230 0 14px, #111 14px 28px); }
+  header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .logo { font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+  .logo small { font-family: var(--mono); font-size: 11px; color: var(--hazard); margin-left: 8px; letter-spacing: .1em; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover, nav ul a[aria-current] { color: var(--hazard); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+  footer { padding: 30px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  .head { padding: 44px 0 24px; }
+  .head .code { font-family: var(--mono); color: var(--hazard); font-size: 12px; letter-spacing: .15em; }
+  .head h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.3; }
+  .head p { color: var(--muted); margin-top: 6px; }
+
+  /* 螢幕外殼 */
+  .hmi {
+    background: linear-gradient(160deg, #52575d, #3a3e43 40%, #2a2d31);
+    border: 1px solid #1a1c1e; border-radius: 12px; padding: 18px 18px 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 12px 30px rgba(0,0,0,.35);
+    margin-bottom: 26px; max-width: 980px;
+  }
+  .screen {
+    background: var(--scr); border: 3px solid #050606; border-radius: 6px; color: var(--ink);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px; background-position: -1px -1px;
+    min-height: 420px; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .bar {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    background: #1b1e21; border-bottom: 1px solid #000; padding: 6px 14px;
+    font-family: var(--mono); font-size: 12px; color: var(--dim);
+  }
+  .bar b { color: var(--ink); letter-spacing: .12em; }
+  .run { display: inline-flex; align-items: center; gap: 6px; color: var(--amber); }
+  .run i { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: blink 1.6s infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+
+  /* 計數儀表 */
+  .meters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
+  .meter { background: rgba(21,24,26,.92); border: 1px solid #2a2e32; border-radius: 4px; padding: 8px 12px; }
+  .meter .k { font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: .1em; }
+  .meter .v { font-family: var(--mono); font-size: 30px; font-weight: 700; color: var(--amber); line-height: 1.2; text-shadow: 0 0 8px rgba(255,179,71,.45); }
+  .meter .v.zero { color: var(--amber-d); text-shadow: none; }
+  .meter .u { font-size: 12px; color: var(--dim); margin-left: 4px; }
+
+  /* 監控項目 */
+  .view { flex: 1; padding: 0 14px 12px; }
+  .vh { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: .1em; padding: 4px 4px 6px; border-bottom: 1px solid #2a2e32; }
+  .rows { list-style: none; }
+  .row a {
+    display: grid; grid-template-columns: 92px 1fr auto; gap: 14px; align-items: center;
+    padding: 12px 6px; border-bottom: 1px solid #22262a; text-decoration: none; background: rgba(13,15,16,.85);
+    transition: background .12s;
+  }
+  .row a:hover, .row a:focus-visible { background: #1d2124; outline: none; }
+  .row a:hover .t { color: var(--amber); }
+  .id { font-family: var(--mono); font-size: 12px; color: var(--yel); }
+  .t { font-weight: 700; font-size: 16px; line-height: 1.5; }
+  .st { font-size: 13px; color: var(--dim); text-align: right; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .st i { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex: none; }
+  .nodata { text-align: center; padding: 70px 10px; font-family: var(--mono); color: var(--amber-d); letter-spacing: .3em; font-size: 20px; }
+  .nodata small { display: block; letter-spacing: .05em; font-size: 12px; color: var(--dim); margin-top: 6px; font-family: "Noto Sans TC", sans-serif; }
+
+  /* 底部按鈕 */
+  .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .key {
+    font: 700 15px "Noto Sans TC", sans-serif; cursor: pointer; padding: 10px 6px 8px; border-radius: 5px;
+    background: linear-gradient(#3b3f44, #25282b); color: #cfcac0; border: 2px solid #111;
+    box-shadow: 0 4px 0 #0b0b0b, inset 0 1px 0 rgba(255,255,255,.12); transition: transform .05s, box-shadow .05s;
+  }
+  .key small { display: block; font-family: var(--mono); font-size: 10px; color: #8e8a82; font-weight: 500; letter-spacing: .1em; }
+  .key:active { transform: translateY(3px); box-shadow: 0 1px 0 #0b0b0b; }
+  .key[aria-selected="true"] { color: #1a1206; background: linear-gradient(#ffc56a, #e8952c); }
+  .key[aria-selected="true"] small { color: #5a3f17; }
+  .key:focus-visible { outline: 3px solid var(--yel); outline-offset: 3px; }
+
+  .back { padding: 6px 0 50px; }
+  .back a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  .back a:hover { color: var(--hazard); }
+
+  @media (max-width: 640px) {
+    .hmi { padding: 12px 10px 10px; }
+    .meters { gap: 6px; padding: 10px; }
+    .meter { padding: 6px 8px; } .meter .v { font-size: 24px; }
+    .row a { grid-template-columns: 1fr; gap: 2px; }
+    .st { justify-content: flex-start; text-align: left; }
+    .bar .clock { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .run i { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="hazard-strip"></div>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
+    <ul>
+      <li><a href="/mech/">機電</a></li>
+      <li><a href="/seo/" aria-current="page">SEO</a></li>
+      <li><a href="/why/">為什麼</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="head">
+    <p class="code">BOX No.02</p>
+    <h1>SEO 監控室</h1>
+    <p>做過的案子、怎麼做的，和一路上學到的東西。</p>
+  </div>
+
+  <div class="hmi">
+    <div class="screen">
+      <div class="bar">
+        <span><b>SEO MONITOR</b>　畫面 <span id="scrName"></span></span>
+        <span><span class="clock" id="clock"></span>　<span class="run"><i></i>RUN</span></span>
+      </div>
+      <div class="meters" id="meters"></div>
+      <div class="view">
+        <div class="vh"><span>ID ・ 項目</span><span>狀態</span></div>
+        <ul class="rows" id="rows" aria-live="polite"></ul>
+      </div>
+    </div>
+    <div class="keys" role="tablist" id="keys"></div>
+  </div>
+
+  <div class="back"><a href="/">← 回到控制盤</a></div>
+</main>
+
+<div class="hazard-strip"></div>
+<footer>
+  <div class="wrap">© 2026 為什麼研究室 ・ SIERRA</div>
+</footer>
+
+<script>
+/*
+  ── 新增內容的地方 ──
+  每一類照格式加一組 { }。
+  title：標題　url：文章網址　date：日期（YYYY-MM-DD）
+  status：右邊顯示的狀態（案例寫重點成果；方法、筆記可以不寫，會自動顯示日期）
+*/
+const ITEMS = {
+  case: [
+    {
+      title: "防火管理人主題叢集",
+      url: "/seo/fire-manager-cluster/",
+      status: "主文自然排名第 1・兩篇被 AI 摘要引用"
+    },
+  ],
+  method: [
+
+  ],
+  note: [
+
+  ],
+};
+</script>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const CATS = [
+    { key: "case",   name: "案例", code: "CASE", en: "CASES" },
+    { key: "method", name: "方法", code: "MTD",  en: "METHOD" },
+    { key: "note",   name: "筆記", code: "NOTE", en: "NOTES" },
+  ];
+  let cur = "case";
+
+  $("meters").innerHTML = CATS.map(c => {
+    const n = (ITEMS[c.key] || []).length;
+    return `<div class="meter"><div class="k">${c.en}</div><div class="v${n ? "" : " zero"}">${String(n).padStart(2, "0")}<span class="u">${c.name}</span></div></div>`;
+  }).join("");
+
+  $("keys").innerHTML = CATS.map((c, i) =>
+    `<button class="key" role="tab" data-k="${c.key}" aria-selected="false">${c.name}<small>F${i + 1} ${c.en}</small></button>`
+  ).join("");
+  $("keys").addEventListener("click", e => {
+    const b = e.target.closest(".key"); if (b) show(b.dataset.k);
+  });
+  document.addEventListener("keydown", e => {
+    const i = ["F1", "F2", "F3"].indexOf(e.key);
+    if (i >= 0) { e.preventDefault(); show(CATS[i].key); }
+  });
+
+  function show(k) {
+    cur = k;
+    const c = CATS.find(x => x.key === k);
+    document.querySelectorAll(".key").forEach(b => b.setAttribute("aria-selected", b.dataset.k === k));
+    $("scrName").textContent = c.name;
+    const list = (ITEMS[k] || []).slice().sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+    $("rows").innerHTML = list.length
+      ? list.map((it, i) => `<li class="row"><a href="${esc(it.url)}">
+          <span class="id">${c.code}-${String(i + 1).padStart(2, "0")}</span>
+          <span class="t">${esc(it.title)}</span>
+          <span class="st"><i></i>${esc(it.status || (it.date || "").replace(/-/g, "."))}</span>
+        </a></li>`).join("")
+      : `<li class="nodata">NO DATA<small>這個頻道還沒接線，之後會補上。</small></li>`;
+  }
+
+  function tick() {
+    const d = new Date(), p = n => String(n).padStart(2, "0");
+    $("clock").textContent = `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+  tick(); setInterval(tick, 30000);
+  show(cur);
+})();
+</script>
+</body>
+</html>
