@@ -19,3 +19,5 @@ Disallow: /weibeifen/
 
 User-agent: *
 Allow: /
+
+Sitemap: https://sierra2121.github.io/weibeifen/sitemap.xml
