@@ -1,12 +1,12 @@
 # 為什麼研究室｜SIERRA
 
-機電研究與知識迴路學習網站。部署在既有 `Sierra2121/sierra2121.github.io` Repository 的 `main` 分支根目錄。
+機電研究與整合式學習網站。部署在既有 `Sierra2121/sierra2121.github.io` Repository 的 `main` 分支根目錄。
 
 ## 使用方式
 
 - 首頁：`/`
 - 機電研究：`/mech/`
-- 知識迴路：`/knowledge-loop/`
+- 學習工作台：`/mech/study/`（舊網址自動轉址）
 
 ## 更新 GitHub
 
