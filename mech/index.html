@@ -136,7 +136,7 @@
   .hazard-strip { --hazard: #f2c230; }
   .board { --bg:#17191b;--bg2:#1f2225;--bg3:#0f1112;--line:#2c2f33;--text:#e9e6df;--muted:#9a978f;--hazard:#f2c230;--amber:#ffb347;--red:#ff4b3e;--wire-on:#ffb347;--lead:#d8d4cb;--soft:#cfcac0; color: var(--text); }
 </style>
-</head>
+<style>.study-section{margin:32px 0}.study-section h2{font-size:24px;margin-bottom:6px}.study-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.study-card{padding:20px;border:1px solid #b7b9b8;background:#fff;color:#272727;border-radius:10px}.study-card h3{margin:0 0 8px}.study-card p{font-size:14px;margin:0 0 14px;color:#555}.study-links{display:flex;gap:8px;flex-wrap:wrap}.study-links a{display:inline-block;background:#e7ebee;color:#21354c;padding:8px 12px;border-radius:6px;font-size:14px;text-decoration:none}.study-links a:hover{background:#d6e0e9}</style></head>
 <body>
 
 <div class="hazard-strip"></div>
@@ -145,7 +145,7 @@
     <a class="logo" href="/">為什麼研究室<small>SIERRA</small></a>
     <ul>
       <li><a href="/mech/" aria-current="page">機電</a></li>
-      <li><a href="/knowledge-loop/">知識迴路</a></li>
+      <li><a href="/mech/study/">學習工作台</a></li>
     </ul>
   </nav>
 </header>
@@ -155,11 +155,11 @@
 
   <div class="hero">
     <p class="code">BOX No.01</p>
-    <h1>機電分電盤</h1>
+    <h1>機電研究</h1>
     <p class="lead">乙級機電整合的學科，我照 8 個題組整理成觀念筆記。題庫已經有答案了，所以每一篇只講一件事：為什麼。</p>
   </div>
 
-  <div class="board">
+  <section class="study-section"><h2>依主題學習</h2><p>從原理到題目，再用互動實驗驗證理解。</p><div class="study-grid"><article class="study-card"><h3>數學與邏輯</h3><p>運算、速度、邏輯題</p><div class="study-links"><a href="/mech/study/?page=bank&subject=%E6%95%B8%E5%AD%B8%E8%88%87%E9%82%8F%E8%BC%AF">題庫與圖解</a><a href="/mech/study/?page=practice&subject=%E6%95%B8%E5%AD%B8%E8%88%87%E9%82%8F%E8%BC%AF">練習</a><a href="/mech/study/?page=lab&lab=train">互動實驗</a></div></article><article class="study-card"><h3>基礎電學</h3><p>歐姆定律、三用電錶</p><div class="study-links"><a href="/mech/study/?page=bank&subject=%E5%9F%BA%E7%A4%8E%E9%9B%BB%E5%AD%B8">題庫與圖解</a><a href="/mech/study/?page=practice&subject=%E5%9F%BA%E7%A4%8E%E9%9B%BB%E5%AD%B8">練習</a><a href="/mech/study/?page=lab&lab=ohm">互動實驗</a></div></article><article class="study-card"><h3>電機與電子學</h3><p>繼電器、整流、二極體、電晶體、步進馬達</p><div class="study-links"><a href="/mech/study/?page=bank&subject=%E9%9B%BB%E6%A9%9F%E8%88%87%E9%9B%BB%E5%AD%90%E5%AD%B8">題庫與圖解</a><a href="/mech/study/?page=practice&subject=%E9%9B%BB%E6%A9%9F%E8%88%87%E9%9B%BB%E5%AD%90%E5%AD%B8">練習</a><a href="/mech/study/?page=lab&lab=relay">互動實驗</a></div></article><article class="study-card"><h3>感測器</h3><p>PT100、熱電偶、光電與位置感測</p><div class="study-links"><a href="/mech/study/?page=bank&subject=%E6%84%9F%E6%B8%AC%E5%99%A8">題庫與圖解</a><a href="/mech/study/?page=practice&subject=%E6%84%9F%E6%B8%AC%E5%99%A8">練習</a><a href="/mech/study/?page=lab&lab=rtd">互動實驗</a></div></article><article class="study-card"><h3>PLC 與自動控制</h3><p>輸入輸出、a/b 接點、控制邏輯</p><div class="study-links"><a href="/mech/study/?page=bank&subject=PLC">題庫與圖解</a><a href="/mech/study/?page=practice&subject=PLC">練習</a><a href="/mech/study/?page=lab&lab=io">互動實驗</a></div></article><article class="study-card"><h3>油壓與氣壓</h3><p>泵浦、順序閥、氣壓缸</p><div class="study-links"><a href="/mech/study/?page=bank&subject=%E6%B2%B9%E5%A3%93%E8%88%87%E6%B0%A3%E5%A3%93">題庫與圖解</a><a href="/mech/study/?page=practice&subject=%E6%B2%B9%E5%A3%93%E8%88%87%E6%B0%A3%E5%A3%93">練習</a><a href="/mech/study/?page=lab&lab=pump">互動實驗</a></div></article></div></section><section class="study-section"><h2>複習與學習管理</h2><div class="study-links"><a href="/mech/study/?page=home">學習進度</a><a href="/mech/study/?page=notes">我的筆記</a><a href="/mech/study/?page=bank">完整題庫</a><a href="/mech/study/?page=practice">自由練習</a><a href="/mech/study/?page=exam">模擬考試</a><a href="/mech/study/?page=wrong">錯題本</a><a href="/mech/study/?page=review">間隔複習</a><a href="/mech/study/?page=flash">英文記憶卡</a><a href="/mech/study/?page=settings">資料備份</a></div></section><h2>機電整合題組索引</h2><div class="board">
     <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
 
     <div class="board-head">
